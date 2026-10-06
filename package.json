@@ -1,0 +1,13 @@
+{
+  "name": "virtual-lab-center",
+  "version": "1.0.0",
+  "private": true,
+  "description": "Centro de laboratorios virtuales: el índice se arma con las carpetas y páginas HTML del root. Funciona sin servidor; el servidor es opcional.",
+  "scripts": {
+    "start": "node server.js",
+    "scan": "node server.js --no-write",
+    "test": "node prueba-escaneo.js"
+  },
+  "keywords": ["landing", "laboratorios", "virtual-lab", "aula", "sin dependencias"],
+  "license": "MIT"
+}

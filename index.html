@@ -1,0 +1,205 @@
+<!doctype html>
+<html lang="es" data-theme="dark">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Virtual Lab Center · Laboratorios y proyectos de aula</title>
+<meta name="description" content="Centro de laboratorios virtuales: prácticas, simuladores y proyectos listos para abrir en el navegador desde un solo índice.">
+<meta name="color-scheme" content="dark light">
+<meta name="theme-color" content="#080f16">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Saira:wght@300;400;500;600;700;800&family=IBM+Plex+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="assets/css/app.css">
+<link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'><rect width='32' height='32' fill='%23080f16'/><path d='M3 18h5l3-8 4 14 4-11 3 5h7' fill='none' stroke='%2338d2e8' stroke-width='2'/></svg>">
+</head>
+<body>
+
+<!-- ─────────────────────────────  fondo 3D  ───────────────────────────── -->
+<canvas id="bg3d" class="bg3d" aria-hidden="true"></canvas>
+<div class="bg-veil" aria-hidden="true"></div>
+<div class="bg-grid" aria-hidden="true"></div>
+
+<!-- ──────────────────────────────  iconos  ───────────────────────────── -->
+<svg class="sprite" aria-hidden="true" focusable="false" xmlns="http://www.w3.org/2000/svg">
+  <symbol id="i-pulse" viewBox="0 0 24 24"><path d="M2 13h4l2.5-7 4 14 3-10 2.5 3h4" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"/></symbol>
+  <symbol id="i-chevron" viewBox="0 0 24 24"><path d="M9 5l7 7-7 7" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></symbol>
+  <symbol id="i-folder" viewBox="0 0 24 24"><path d="M3 7.5A1.5 1.5 0 014.5 6h4.2l2 2.4h8.8A1.5 1.5 0 0121 10v7.5A1.5 1.5 0 0119.5 19h-15A1.5 1.5 0 013 17.5z" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linejoin="round"/></symbol>
+  <symbol id="i-page" viewBox="0 0 24 24"><path d="M6 3.5h7l5 5V20a1 1 0 01-1 1H6a1 1 0 01-1-1V4.5a1 1 0 011-1z" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linejoin="round"/><path d="M13 3.5V9h5" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linejoin="round"/></symbol>
+  <symbol id="i-sun" viewBox="0 0 24 24"><circle cx="12" cy="12" r="4.2" fill="none" stroke="currentColor" stroke-width="1.7"/><path d="M12 2.6v2.6M12 18.8v2.6M2.6 12h2.6M18.8 12h2.6M5.3 5.3l1.9 1.9M16.8 16.8l1.9 1.9M18.7 5.3l-1.9 1.9M7.2 16.8l-1.9 1.9" stroke="currentColor" stroke-width="1.7" stroke-linecap="round"/></symbol>
+  <symbol id="i-moon" viewBox="0 0 24 24"><path d="M20 14.2A8.4 8.4 0 019.8 4 8.4 8.4 0 1020 14.2z" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linejoin="round"/></symbol>
+  <symbol id="i-back" viewBox="0 0 24 24"><path d="M14.5 5L8 12l6.5 7" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></symbol>
+  <symbol id="i-open" viewBox="0 0 24 24"><path d="M14 4h6v6M20 4l-8.5 8.5" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"/><path d="M18 14.5V19a1 1 0 01-1 1H5a1 1 0 01-1-1V7a1 1 0 011-1h4.5" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round"/></symbol>
+  <symbol id="i-search" viewBox="0 0 24 24"><circle cx="11" cy="11" r="6.2" fill="none" stroke="currentColor" stroke-width="1.7"/><path d="M15.6 15.6L20 20" stroke="currentColor" stroke-width="1.7" stroke-linecap="round"/></symbol>
+  <symbol id="i-list" viewBox="0 0 24 24"><path d="M4 7h16M4 12h16M4 17h16" stroke="currentColor" stroke-width="1.7" stroke-linecap="round"/></symbol>
+  <symbol id="i-refresh" viewBox="0 0 24 24"><path d="M20 12a8 8 0 11-2.6-5.9" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round"/><path d="M20 4v4.5h-4.5" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"/></symbol>
+  <symbol id="i-dot" viewBox="0 0 24 24"><circle cx="12" cy="12" r="3" fill="currentColor"/></symbol>
+  <symbol id="i-copy" viewBox="0 0 24 24"><rect x="9" y="9" width="11" height="11" rx="1.5" fill="none" stroke="currentColor" stroke-width="1.7"/><path d="M15 6.5V5.5A1.5 1.5 0 0013.5 4h-8A1.5 1.5 0 004 5.5v8A1.5 1.5 0 005.5 15H6.5" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round"/></symbol>
+</svg>
+
+<!-- ───────────────────────────────  cabecera  ─────────────────────────── -->
+<header class="topbar" id="topbar">
+  <div class="topbar__in">
+    <a class="brand" href="#/" id="brand" aria-label="Virtual Lab Center — inicio">
+      <span class="brand__mark" aria-hidden="true">
+        <svg viewBox="0 0 40 40"><path class="brand__trace" d="M4 22h6l4-11 5.5 19L24 17l3.5 5H36" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+      </span>
+      <span class="brand__text">
+        <span class="brand__name">Virtual Lab <em>Center</em></span>
+        <span class="brand__sub" data-i18n="brand.by">Desarrollado por Dr.C. Arlys Michel Lastre Aleaga</span>
+      </span>
+    </a>
+
+    <div class="topbar__mid">
+      <button class="btn btn--ghost back" id="backBtn" hidden type="button">
+        <svg class="ic" aria-hidden="true"><use href="#i-back"/></svg>
+        <span data-i18n="nav.back">Volver al índice</span>
+      </button>
+      <nav class="crumbs" id="crumbs" aria-label="Ruta"></nav>
+    </div>
+
+    <div class="topbar__tools">
+      <button class="btn btn--icon" id="menuBtn" type="button" aria-label="Índice" title="Índice">
+        <svg class="ic" aria-hidden="true"><use href="#i-list"/></svg>
+      </button>
+      <button class="btn btn--icon" id="openBtn" type="button" aria-label="Abrir en pestaña nueva" title="Abrir en pestaña nueva" hidden>
+        <svg class="ic" aria-hidden="true"><use href="#i-open"/></svg>
+      </button>
+      <div class="seg" role="group" aria-label="Idioma" id="langSeg">
+        <button type="button" class="seg__btn" data-lang="es" aria-pressed="true">ES</button>
+        <button type="button" class="seg__btn" data-lang="en" aria-pressed="false">EN</button>
+      </div>
+      <button class="btn btn--icon theme-toggle" id="themeBtn" type="button" aria-label="Cambiar tema" aria-pressed="false">
+        <svg class="ic ic--sun" aria-hidden="true"><use href="#i-sun"/></svg>
+        <svg class="ic ic--moon" aria-hidden="true"><use href="#i-moon"/></svg>
+      </button>
+    </div>
+  </div>
+</header>
+
+<main class="main" id="main">
+
+  <!-- ══════════════════════════════  INICIO  ══════════════════════════ -->
+  <section class="view view--home" id="viewHome">
+
+    <div class="hero">
+      <div class="hero__rule" aria-hidden="true"></div>
+      <p class="hero__lead" data-i18n="hero.lead">Centro de laboratorios virtuales</p>
+
+      <h1 class="hero__title">
+        <span class="hero__line" data-text="Virtual">Virtual</span>
+        <span class="hero__line hero__line--accent" data-text="Lab Center">Lab Center</span>
+        <svg class="hero__wave" viewBox="0 0 1200 90" preserveAspectRatio="none" aria-hidden="true">
+          <path class="hero__wave-bg" d="M0 45h1200"/>
+          <path class="hero__wave-line" d="M0 45h150l26-34 34 68 30-46 26 24 30-12h180l26-30 34 60 30-40 26 20 30-10h160l26-34 34 68 30-46 26 24 30-12h176"/>
+        </svg>
+      </h1>
+
+      <div class="hero__cta">
+        <a class="btn btn--primary" href="#index" id="heroIndex">
+          <span data-i18n="cta.index">Abrir el índice</span>
+          <svg class="ic" aria-hidden="true"><use href="#i-chevron"/></svg>
+        </a>
+        <a class="btn btn--primary btn--ghost-first" href="#/" id="heroFirst" hidden>
+          <span data-i18n="cta.first">Abrir la primera práctica</span>
+          <svg class="ic" aria-hidden="true"><use href="#i-chevron"/></svg>
+        </a>
+      </div>
+
+      <div class="readout" id="readout">
+        <div class="readout__row"><span class="readout__k" data-i18n="stat.labs">prácticas</span><span class="readout__v" id="statLabs">—</span></div>
+        <div class="readout__row"><span class="readout__k" data-i18n="stat.pages">pantallas</span><span class="readout__v" id="statPages">—</span></div>
+        <div class="readout__row"><span class="readout__k" data-i18n="stat.areas">áreas</span><span class="readout__v" id="statAreas">—</span></div>
+        <div class="readout__row"><span class="readout__k" data-i18n="stat.last">índice leído</span><span class="readout__v readout__v--sm" id="statStamp">—</span></div>
+      </div>
+    </div>
+
+    <section class="console" id="indexPanel" aria-labelledby="indexTitle">
+      <div class="console__head">
+        <div class="console__title">
+          <h2 id="indexTitle" data-i18n="index.title">Índice de prácticas</h2>
+          <button class="console__hint" id="indexSource" type="button" data-i18n="index.hint" title="Origen del índice">leyendo el root…</button>
+        </div>
+        <button class="btn btn--ghost btn--sm" id="rescanBtn" type="button">
+          <svg class="ic" aria-hidden="true"><use href="#i-refresh"/></svg>
+          <span data-i18n="index.rescan">Releer carpetas</span>
+        </button>
+      </div>
+      <div id="treeMountHome"></div>
+    </section>
+  </section>
+
+  <!-- ══════════════════════════════  VISOR  ═══════════════════════════ -->
+  <section class="view view--lab" id="viewLab" hidden>
+    <aside class="side" id="side" aria-label="Índice de prácticas">
+      <div class="side__head">
+        <span class="side__title" data-i18n="index.title">Índice de prácticas</span>
+        <button class="btn btn--icon btn--sm side__close" id="sideClose" type="button" aria-label="Cerrar índice">
+          <svg class="ic" aria-hidden="true"><use href="#i-back"/></svg>
+        </button>
+      </div>
+      <div id="treeMountLab"></div>
+    </aside>
+    <div class="side-scrim" id="sideScrim" hidden></div>
+    <div class="stage">
+      <div class="stage__bar">
+        <span class="stage__name" id="stageName">—</span>
+        <span class="stage__path" id="stagePath"></span>
+        <button class="btn btn--icon btn--sm stage__copy" id="copyBtn" type="button" data-i18n-aria="stage.copy" aria-label="Copiar ruta" title="Copiar ruta">
+          <svg class="ic" aria-hidden="true"><use href="#i-copy"/></svg>
+        </button>
+      </div>
+      <iframe id="frame" class="stage__frame" title="Práctica" loading="lazy" allow="clipboard-write"></iframe>
+      <div class="stage__fallback" id="stageFallback" hidden>
+        <p data-i18n="stage.blocked">El navegador no permitió incrustar esta página.</p>
+        <a class="btn btn--primary" id="stageOpen" href="#" target="_blank" rel="noopener" data-i18n="cta.external">Abrir en pestaña nueva</a>
+      </div>
+    </div>
+  </section>
+</main>
+
+<div class="toast" id="toast" role="status" aria-live="polite"></div>
+
+<!-- ─────────────────────  panel: índice desde las carpetas  ───────────────── -->
+<div class="scan" id="scanPanel" hidden>
+  <div class="scan__box" role="dialog" aria-modal="true" aria-labelledby="scanTitle">
+    <button class="scan__close" id="scanClose" type="button" data-i18n-aria="scan.close" aria-label="Cerrar">
+      <svg class="ic" aria-hidden="true"><use href="#i-back"/></svg>
+    </button>
+
+    <p class="scan__eyebrow" data-i18n="scan.eyebrow">Sin servidor</p>
+    <h2 id="scanTitle" data-i18n="scan.title">El índice se arma con tus carpetas</h2>
+    <p class="scan__body" data-i18n="scan.body">Elige la carpeta raíz del proyecto y el centro leerá dentro todas las prácticas y páginas. No hace falta ejecutar nada: todo ocurre en este navegador.</p>
+
+    <div class="scan__drop" id="scanDrop">
+      <span class="scan__dropTitle" data-i18n="scan.dropTitle">Suelta aquí la carpeta del proyecto</span>
+      <span class="scan__dropBody" data-i18n="scan.dropBody">o pulsa el botón de abajo para buscarla en el disco</span>
+    </div>
+
+    <div class="scan__actions">
+      <button class="btn btn--primary" id="scanPick" type="button">
+        <svg class="ic" aria-hidden="true"><use href="#i-folder"/></svg>
+        <span data-i18n="scan.pick">Buscar la carpeta del proyecto</span>
+      </button>
+      <button class="btn" id="scanAgain" type="button" hidden>
+        <svg class="ic" aria-hidden="true"><use href="#i-refresh"/></svg>
+        <span data-i18n="scan.rescan">Releer esa carpeta</span>
+      </button>
+      <button class="btn btn--ghost" id="scanForget" type="button" hidden data-i18n="scan.forget">Olvidar carpeta</button>
+    </div>
+
+    <p class="scan__status" id="scanStatus" role="status"></p>
+    <p class="scan__note" data-i18n="scan.note">¿Prefieres el modo automático? <b>INICIAR.cmd</b> arranca el servidor y abre el navegador; el índice se relee en cada visita sin tocar nada.</p>
+    <p class="scan__note scan__note--link" id="scanServer" hidden>
+      <a class="btn btn--sm" href="http://localhost:5173/" id="scanServerLink" data-i18n="scan.serverOpen">Abrir la versión con servidor</a>
+    </p>
+  </div>
+</div>
+
+<script src="assets/js/i18n.js"></script>
+<script src="assets/js/registry.js"></script>
+<script src="assets/js/labs.js"></script>
+<script src="assets/js/background3d.js"></script>
+<script src="assets/js/app.js"></script>
+</body>
+</html>

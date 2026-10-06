@@ -1,0 +1,27 @@
+{
+  "order": 3,
+  "icon": "clipboard",
+  "tags": ["taller", "protocolo", "materiales"],
+  "title": { "es": "Guía de taller", "en": "Workshop guide" },
+  "area": { "es": "Taller y protocolo", "en": "Workshop and protocol" },
+  "summary": {
+    "es": "Preparación, protocolo paso a paso y lista de materiales del taller de medición.",
+    "en": "Preparation, step-by-step protocol and the material list for the measurement workshop."
+  },
+  "pages": {
+    "protocolo.html": {
+      "title": { "es": "Protocolo de medición", "en": "Measurement protocol" },
+      "summary": {
+        "es": "Diez pasos con seguridad, conexiones y lecturas esperadas.",
+        "en": "Ten steps with safety, connections and expected readings."
+      }
+    },
+    "materiales.html": {
+      "title": { "es": "Materiales y equipos", "en": "Materials and equipment" },
+      "summary": {
+        "es": "Cantidades, especificaciones y equipos compartidos por grupo.",
+        "en": "Quantities, specifications and equipment shared per group."
+      }
+    }
+  }
+}

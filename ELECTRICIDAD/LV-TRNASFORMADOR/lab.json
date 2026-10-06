@@ -1,0 +1,9 @@
+{
+  "order": 4,
+  "title": { "es": "Laboratorio Virtual de Transformadores", "en": "Virtual Transformers Lab" },
+  "area": { "es": "Electricidad", "en": "Electrical engineering" },
+  "summary": {
+    "es": "Simulador de transformadores: relación de vueltas, flujo, pérdidas y regulación en carga.",
+    "en": "Transformer simulator: turns ratio, flux, losses and regulation under load."
+  }
+}

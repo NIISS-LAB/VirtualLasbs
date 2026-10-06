@@ -1,0 +1,209 @@
+<!doctype html>
+<html lang="es">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Ley de Ohm · Virtual Lab Center</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Saira:wght@300;400;500;600;700&family=IBM+Plex+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="../../assets/css/lab.css">
+<style>
+  .schem .wire { fill: none; stroke: var(--line-2); stroke-width: 2; }
+  .schem .flow { fill: none; stroke: var(--accent); stroke-width: 2.6; stroke-linecap: round; stroke-dasharray: 5 16; }
+  .schem .body { fill: none; stroke: var(--ink); stroke-width: 2.4; stroke-linecap: round; stroke-linejoin: round; }
+  .schem .lbl { font-family: 'IBM Plex Mono', monospace; font-size: 12px; fill: var(--ink-3); }
+  .schem .lbl--key { fill: var(--accent); font-weight: 600; }
+  .presets { display: flex; gap: 0.4rem; flex-wrap: wrap; }
+</style>
+</head>
+<body>
+
+<header class="lab-head">
+  <a class="lab-back" href="../../index.html">
+    <svg class="ic" width="14" height="14" viewBox="0 0 24 24" aria-hidden="true"><path d="M14.5 5L8 12l6.5 7" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+    <span data-t="back">Índice</span>
+  </a>
+  <div class="lab-head__title">
+    <span data-t="short">Ley de Ohm</span>
+    <small>circuitos-ohm/index.html</small>
+  </div>
+  <div class="lab-head__tools">
+    <button class="lbtn" type="button" data-lab-lang-toggle data-lang-label>ES</button>
+    <button class="lbtn" type="button" data-lab-theme-toggle data-t-aria="theme" aria-label="Tema">◐</button>
+  </div>
+</header>
+
+<main class="lab-main">
+  <p class="lab-eyebrow" data-t="eyebrow">Práctica 01 · Electrotecnia</p>
+  <h1 data-t="h1">Ley de Ohm</h1>
+  <p class="lab-lede" data-t="lede">Ajusta la tensión de la fuente y la resistencia de la carga: el esquema, la corriente y la potencia se recalculan al instante.</p>
+
+  <div class="lab-grid">
+
+    <!-- --------------------------------------------------- controles -- -->
+    <section class="panel">
+      <div class="panel__title" data-t="ctrl">Controles</div>
+
+      <div class="ctl">
+        <div class="ctl__top"><span class="ctl__label" data-t="V">Tensión de fuente</span><span class="ctl__val" id="vOut">12.0 V</span></div>
+        <input type="range" id="v" min="1" max="24" step="0.5" value="12" aria-label="Tensión de fuente">
+      </div>
+
+      <div class="ctl">
+        <div class="ctl__top"><span class="ctl__label" data-t="R">Resistencia de carga</span><span class="ctl__val" id="rOut">220 Ω</span></div>
+        <input type="range" id="r" min="10" max="2000" step="5" value="220" aria-label="Resistencia de carga">
+      </div>
+
+      <div class="panel__title" style="margin-top:1.2rem" data-t="preset">Resistencias de uso</div>
+      <div class="presets">
+        <button class="lbtn" type="button" data-r="47">47 Ω</button>
+        <button class="lbtn" type="button" data-r="220">220 Ω</button>
+        <button class="lbtn" type="button" data-r="1000">1 kΩ</button>
+        <button class="lbtn" type="button" data-r="2000">2 kΩ</button>
+      </div>
+    </section>
+
+    <!-- ------------------------------------------------------ esquema -- -->
+    <section>
+      <div class="panel">
+        <div class="panel__title" data-t="schem">Circuito</div>
+        <svg class="schem" viewBox="0 0 460 250" role="img" aria-labelledby="schemTitle">
+          <title id="schemTitle" data-t="schemTitle">Fuente de tensión y resistencia en serie</title>
+
+          <!-- cable -->
+          <path class="wire" d="M90 200 L90 60 L180 60 M280 60 L370 60 L370 200 L90 200"/>
+          <!-- corriente -->
+          <path class="flow" id="flow" d="M90 200 L90 60 L180 60 l12.5 -12 l12.5 24 l12.5 -24 l12.5 24 l12.5 -24 l12.5 24 l12.5 -24 l12.5 12 L370 60 L370 200 L90 200"/>
+          <!-- resistencia -->
+          <path class="body" d="M180 60 l12.5 -12 l12.5 24 l12.5 -24 l12.5 24 l12.5 -24 l12.5 24 l12.5 -24 l12.5 12"/>
+          <!-- fuente -->
+          <path class="body" d="M76 120 H104 M84 138 H96"/>
+          <path class="body" d="M88 124 L84 138 M92 124 L96 138" style="stroke-width:1.4;opacity:.7"/>
+
+          <text class="lbl" x="200" y="34">R</text>
+          <text class="lbl" x="112" y="126">V+</text>
+          <text class="lbl" x="112" y="158">V−</text>
+          <text class="lbl lbl--key" id="iTag" x="392" y="130">I = —</text>
+          <text class="lbl" x="212" y="232" id="wireTag">cable 0,4 Ω</text>
+        </svg>
+
+        <div class="legend">
+          <span><i style="border-color:var(--accent)"></i><span data-t="lg1">sentido de la corriente</span></span>
+          <span><i style="border-color:var(--line-2)"></i><span data-t="lg2">resistencia del cable 0,4 Ω</span></span>
+        </div>
+      </div>
+
+      <div class="out" style="margin-top:1rem">
+        <div class="out__row"><span class="out__k" data-t="i">Corriente</span><span class="out__v" id="iVal">—<small>mA</small></span></div>
+        <div class="out__row"><span class="out__k" data-t="vterm">Tensión en R</span><span class="out__v" id="vTerm">—<small>V</small></span></div>
+        <div class="out__row" id="pRow"><span class="out__k" data-t="p">Potencia en R</span><span class="out__v" id="pVal">—<small>W</small></span></div>
+      </div>
+
+      <div class="note note--warn" id="warn" hidden>
+        <b data-t="warn">La resistencia se calienta</b>
+        <span data-t-html="warnText">Con {p} W una resistencia de 1/4 W se calienta. Sube R o baja la tensión.</span>
+      </div>
+    </section>
+  </div>
+
+  <nav class="lab-nav">
+    <a href="fundamentos.html"><span data-t="nav1">Fundamentos y ejercicios</span> →</a>
+    <a href="../osciloscopio-rc/index.html"><span data-t="nav2">Osciloscopio: respuesta RC</span> →</a>
+  </nav>
+</main>
+
+<script src="../../assets/js/lab-kit.js"></script>
+<script>
+const L = LabKit.mount({
+  es: {
+    back: 'Índice', short: 'Ley de Ohm', theme: 'Tema',
+    eyebrow: 'Práctica 01 · Electrotecnia', h1: 'Ley de Ohm',
+    lede: 'Ajusta la tensión de la fuente y la resistencia de la carga: el esquema, la corriente y la potencia se recalculan al instante.',
+    ctrl: 'Controles', V: 'Tensión de fuente', R: 'Resistencia de carga',
+    preset: 'Resistencias de uso', schem: 'Circuito',
+    schemTitle: 'Fuente de tensión y resistencia en serie',
+    lg1: 'sentido de la corriente', lg2: 'resistencia del cable 0,4 Ω',
+    i: 'Corriente', vterm: 'Tensión en R', p: 'Potencia en R',
+    warn: 'La resistencia se calienta',
+    warnText: 'Con <b>{p} W</b> una resistencia de 1/4 W se calienta. Sube R o baja la tensión.',
+    nav1: 'Fundamentos y ejercicios', nav2: 'Osciloscopio: respuesta RC',
+  },
+  en: {
+    back: 'Index', short: "Ohm's law", theme: 'Theme',
+    eyebrow: 'Lab 01 · Electrical technology', h1: "Ohm's law",
+    lede: 'Set the source voltage and the load resistance: the diagram, the current and the power update instantly.',
+    ctrl: 'Controls', V: 'Source voltage', R: 'Load resistance',
+    preset: 'Common resistors', schem: 'Circuit',
+    schemTitle: 'Voltage source and series resistor',
+    lg1: 'direction of the current', lg2: 'wire resistance 0.4 Ω',
+    i: 'Current', vterm: 'Voltage across R', p: 'Power in R',
+    warn: 'The resistor is heating up',
+    warnText: 'At <b>{p} W</b> a 1/4 W resistor heats up. Raise R or lower the voltage.',
+    nav1: 'Fundamentals and exercises', nav2: 'Oscilloscope: RC response',
+  },
+});
+
+const $ = (s) => document.querySelector(s);
+const vEl = $('#v'), rEl = $('#r'), flow = $('#flow');
+const RW = 0.4; // Ω del cable
+
+function fmt(x, d) { return Number(x).toLocaleString(L.lang === 'en' ? 'en-GB' : 'es-ES', { minimumFractionDigits: d, maximumFractionDigits: d }); }
+
+function paintRange(el) {
+  const pct = ((el.value - el.min) / (el.max - el.min)) * 100;
+  el.style.setProperty('--fill', pct.toFixed(1) + '%');
+}
+
+function update() {
+  const V = parseFloat(vEl.value);
+  const R = parseFloat(rEl.value);
+  const I = V / (R + RW);
+  const P = I * I * R;
+  const VR = I * R;
+
+  $('#vOut').textContent = fmt(V, 1) + ' V';
+  $('#rOut').textContent = R >= 1000 ? fmt(R / 1000, 2) + ' kΩ' : fmt(R, 0) + ' Ω';
+  $('#iVal').innerHTML = I >= 1
+    ? fmt(I, 3) + '<small>A</small>'
+    : fmt(I * 1000, 1) + '<small>mA</small>';
+  $('#vTerm').innerHTML = fmt(VR, 2) + '<small>V</small>';
+  $('#pVal').innerHTML = fmt(P, 2) + '<small>W</small>';
+  $('#iTag').textContent = 'I = ' + (I >= 1 ? fmt(I, 3) + ' A' : fmt(I * 1000, 0) + ' mA');
+  $('#wireTag').textContent = L.lang === 'en'
+    ? 'drop ' + fmt(I * RW, 3) + ' V on the wire'
+    : 'caída ' + fmt(I * RW, 3) + ' V en el cable';
+
+  // la corriente corre más rápido cuanto mayor es I
+  const dur = Math.max(0.28, Math.min(1.7, 1.7 - I * 1.35));
+  flow.style.animation = 'none';
+  void flow.getBoundingClientRect();
+  flow.style.animation = L.reduced ? 'none' : `dash ${dur.toFixed(2)}s linear infinite`;
+  flow.style.opacity = String(Math.max(0.35, Math.min(1, 0.45 + I)));
+
+  const hot = P > 0.25;
+  $('#pRow').classList.toggle('out__row--warn', hot);
+  const warn = $('#warn');
+  if (hot !== !warn.hidden) {
+    warn.hidden = !hot;
+    if (hot) $('[data-t-html="warnText"]').innerHTML = L.t('warnText').split('{p}').join(fmt(P, 2));
+  }
+
+  paintRange(vEl);
+  paintRange(rEl);
+}
+
+[vEl, rEl].forEach((el) => el.addEventListener('input', update));
+document.querySelectorAll('[data-r]').forEach((b) =>
+  b.addEventListener('click', () => { rEl.value = b.dataset.r; update(); })
+);
+
+L.onChange(update);
+update();
+</script>
+
+<style>
+  @keyframes dash { to { stroke-dashoffset: -21; } }
+</style>
+</body>
+</html>

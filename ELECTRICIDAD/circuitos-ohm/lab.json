@@ -1,0 +1,20 @@
+{
+  "order": 1,
+  "icon": "bolt",
+  "tags": ["circuitos", "cd/08", "primera ley"],
+  "title": { "es": "Ley de Ohm", "en": "Ohm's law" },
+  "area": { "es": "Electrotecnia", "en": "Electrical technology" },
+  "summary": {
+    "es": "Simulador de tensión, corriente y potencia con esquema del circuito en vivo.",
+    "en": "Voltage, current and power simulator with a live circuit diagram."
+  },
+  "pages": {
+    "fundamentos.html": {
+      "title": { "es": "Fundamentos y ejercicios", "en": "Fundamentals and exercises" },
+      "summary": {
+        "es": "Las tres leyes de Ohm, potencia disipada y cinco ejercicios resueltos.",
+        "en": "The three Ohm laws, dissipated power and five solved exercises."
+      }
+    }
+  }
+}

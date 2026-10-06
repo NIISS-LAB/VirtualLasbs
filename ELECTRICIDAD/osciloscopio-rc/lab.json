@@ -1,0 +1,11 @@
+{
+  "order": 2,
+  "icon": "wave",
+  "tags": ["osciloscopio", "transitorios", "rc"],
+  "title": { "es": "Respuesta de un circuito RC", "en": "RC circuit response" },
+  "area": { "es": "Señales y transitorios", "en": "Signals and transients" },
+  "summary": {
+    "es": "Carga y descarga de un condensador sobre la retícula del osciloscopio, con constante de tiempo en pantalla.",
+    "en": "Capacitor charge and discharge plotted on a scope graticule, with the time constant on screen."
+  }
+}

@@ -1,0 +1,128 @@
+<!doctype html>
+<html lang="es">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title data-t="title">Fundamentos · Ley de Ohm</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Saira:wght@300;400;500;600;700&family=IBM+Plex+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="../../assets/css/lab.css">
+</head>
+<body>
+
+<header class="lab-head">
+  <a class="lab-back" href="../../index.html">
+    <svg class="ic" width="14" height="14" viewBox="0 0 24 24" aria-hidden="true"><path d="M14.5 5L8 12l6.5 7" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+    <span data-t="back">Índice</span>
+  </a>
+  <div class="lab-head__title"><span data-t="short">Ley de Ohm · fundamentos</span><small>circuitos-ohm/fundamentos.html</small></div>
+  <div class="lab-head__tools">
+    <button class="lbtn" type="button" data-lab-lang-toggle data-lang-label>ES</button>
+    <button class="lbtn" type="button" data-lab-theme-toggle data-t-aria="theme" aria-label="Tema">◐</button>
+  </div>
+</header>
+
+<main class="lab-main">
+
+  <!-- ──────────────────────────────── ES ──────────────────────────────── -->
+  <div data-lang-only="es">
+    <p class="lab-eyebrow">Práctica 01 · Electrotecnia</p>
+    <h1>Fundamentos y ejercicios</h1>
+    <p class="lab-lede">Las tres leyes que rigen un resistor ideal, cómo se disipa la potencia y cinco ejercicios listos para resolver en clase.</p>
+
+    <div class="panel" style="margin-top:1.6rem">
+      <div class="panel__title">Las tres leyes</div>
+      <table>
+        <thead><tr><th>Ley</th><th>Relación</th><th>Se usa cuando</th></tr></thead>
+        <tbody>
+          <tr><td class="mono">Tensión</td><td class="mono">V = I · R</td><td>Conocemos corriente y resistencia</td></tr>
+          <tr><td class="mono">Corriente</td><td class="mono">I = V / R</td><td>Conocemos tensión y resistencia</td></tr>
+          <tr><td class="mono">Resistencia</td><td class="mono">R = V / I</td><td>Conocemos tensión y corriente</td></tr>
+        </tbody>
+      </table>
+      <div class="note">Las tres son la misma ecuación escrita de tres formas. La clave es saber qué dos datos tienes.</div>
+    </div>
+
+    <div class="panel" style="margin-top:1rem">
+      <div class="panel__title">Potencia disipada</div>
+      <p>Todo resistor convierte energía eléctrica en calor. La rapidez con que lo hace es la potencia:</p>
+      <p class="mono" style="color:var(--accent);font-size:1.05rem">P = V · I = I² · R = V² / R</p>
+      <p>Un resistor de 1/4 W soporta hasta 0,25 W de forma permanente. Si el cálculo da más, hay que subir el valor de R o bajar la tensión de la fuente.</p>
+      <div class="note note--warn">Comprueba siempre la potencia antes de conectar. Es la causa número uno de resistencias quemadas.</div>
+    </div>
+
+    <div class="panel" style="margin-top:1rem">
+      <div class="panel__title">Ejercicios propuestos</div>
+      <ol class="steps">
+        <li><b>Fuente de 9 V, resistencia de 180 Ω</b><span>Calcula corriente, tensión en R y potencia. → 50 mA · 9 V · 0,45 W</span></li>
+        <li><b>Fuente de 12 V, resistencia de 470 Ω</b><span>Corriente y potencia disipada. → 25,5 mA · 0,31 W</span></li>
+        <li><b>Motor que pide 1,5 A con 24 V</b><span>Resistencia equivalente y potencia en el motor. → 16 Ω · 36 W</span></li>
+        <li><b>Cable de 0,4 Ω con 10 A</b><span>Caída de tensión en el cable. → 4 V, es casi un tercio de la fuente</span></li>
+        <li><b>Dos resistencias en serie de 100 Ω y 220 Ω con 6 V</b><span>Corriente total y tensión en cada una. → 18,75 mA · 1,88 V y 4,13 V</span></li>
+      </ol>
+    </div>
+  </div>
+
+  <!-- ──────────────────────────────── EN ──────────────────────────────── -->
+  <div data-lang-only="en">
+    <p class="lab-eyebrow">Lab 01 · Electrical technology</p>
+    <h1>Fundamentals and exercises</h1>
+    <p class="lab-lede">The three laws that govern an ideal resistor, how power is dissipated, and five exercises ready to solve in class.</p>
+
+    <div class="panel" style="margin-top:1.6rem">
+      <div class="panel__title">The three laws</div>
+      <table>
+        <thead><tr><th>Law</th><th>Relation</th><th>Used when</th></tr></thead>
+        <tbody>
+          <tr><td class="mono">Voltage</td><td class="mono">V = I · R</td><td>Current and resistance are known</td></tr>
+          <tr><td class="mono">Current</td><td class="mono">I = V / R</td><td>Voltage and resistance are known</td></tr>
+          <tr><td class="mono">Resistance</td><td class="mono">R = V / I</td><td>Voltage and current are known</td></tr>
+        </tbody>
+      </table>
+      <div class="note">All three are the same equation written three ways. The trick is knowing which two values you have.</div>
+    </div>
+
+    <div class="panel" style="margin-top:1rem">
+      <div class="panel__title">Dissipated power</div>
+      <p>Every resistor turns electrical energy into heat. How fast it does it is the power:</p>
+      <p class="mono" style="color:var(--accent);font-size:1.05rem">P = V · I = I² · R = V² / R</p>
+      <p>A 1/4 W resistor handles up to 0.25 W continuously. If the calculation gives more, raise R or lower the source voltage.</p>
+      <div class="note note--warn">Always check the power before connecting anything. It is the number one cause of burnt resistors.</div>
+    </div>
+
+    <div class="panel" style="margin-top:1rem">
+      <div class="panel__title">Suggested exercises</div>
+      <ol class="steps">
+        <li><b>9 V source, 180 Ω resistor</b><span>Find current, voltage across R and power. → 50 mA · 9 V · 0.45 W</span></li>
+        <li><b>12 V source, 470 Ω resistor</b><span>Current and dissipated power. → 25.5 mA · 0.31 W</span></li>
+        <li><b>Motor drawing 1.5 A at 24 V</b><span>Equivalent resistance and power in the motor. → 16 Ω · 36 W</span></li>
+        <li><b>0.4 Ω cable carrying 10 A</b><span>Voltage drop on the cable. → 4 V, almost a third of the supply</span></li>
+        <li><b>100 Ω and 220 Ω in series with 6 V</b><span>Total current and voltage on each one. → 18.75 mA · 1.88 V and 4.13 V</span></li>
+      </ol>
+    </div>
+  </div>
+
+  <nav class="lab-nav">
+    <a href="index.html"><span data-t="nav1">← Simulador</span></a>
+    <a href="../osciloscopio-rc/index.html"><span data-t="nav2">Osciloscopio: respuesta RC</span> →</a>
+  </nav>
+</main>
+
+<script src="../../assets/js/lab-kit.js"></script>
+<script>
+LabKit.mount({
+  es: {
+    back: 'Índice', theme: 'Tema',
+    title: 'Fundamentos · Ley de Ohm', short: 'Ley de Ohm · fundamentos',
+    nav1: 'Simulador', nav2: 'Osciloscopio: respuesta RC',
+  },
+  en: {
+    back: 'Index', theme: 'Theme',
+    title: 'Fundamentals · Ohm’s law', short: 'Ohm’s law · fundamentals',
+    nav1: 'Simulator', nav2: 'Oscilloscope: RC response',
+  },
+});
+</script>
+</body>
+</html>

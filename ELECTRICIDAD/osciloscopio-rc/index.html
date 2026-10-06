@@ -1,0 +1,319 @@
+<!doctype html>
+<html lang="es">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Osciloscopio: respuesta RC · Virtual Lab Center</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Saira:wght@300;400;500;600;700&family=IBM+Plex+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="../../assets/css/lab.css">
+<style>
+  .screen { position: relative; border: 1px solid var(--line-2); border-radius: var(--r); overflow: hidden; background: #05090d; }
+  :root[data-lab-theme='light'] .screen { background: #0d1a24; }
+  .plot { display: block; width: 100%; height: auto; }
+  .mode { display: flex; gap: 0.4rem; }
+  .mode .lbtn[aria-pressed='true'] { background: var(--accent); color: var(--accent-ink); border-color: var(--accent); }
+</style>
+</head>
+<body>
+
+<header class="lab-head">
+  <a class="lab-back" href="../../index.html">
+    <svg class="ic" width="14" height="14" viewBox="0 0 24 24" aria-hidden="true"><path d="M14.5 5L8 12l6.5 7" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+    <span data-t="back">Índice</span>
+  </a>
+  <div class="lab-head__title"><span data-t="short">Respuesta RC</span><small>osciloscopio-rc/index.html</small></div>
+  <div class="lab-head__tools">
+    <button class="lbtn" type="button" data-lab-lang-toggle data-lang-label>ES</button>
+    <button class="lbtn" type="button" data-lab-theme-toggle data-t-aria="theme" aria-label="Tema">◐</button>
+  </div>
+</header>
+
+<main class="lab-main">
+  <div data-lang-only="es">
+    <p class="lab-eyebrow">Práctica 02 · Señales y transitorios</p>
+    <h1>Respuesta de un circuito RC</h1>
+    <p class="lab-lede">Un condensador no cambia de tensión de golpe: tarda una constante de tiempo en llegar al 63 % de la fuente. Mueve los cursores sobre la retícula y lee el punto exacto.</p>
+  </div>
+  <div data-lang-only="en">
+    <p class="lab-eyebrow">Lab 02 · Signals and transients</p>
+    <h1>RC circuit response</h1>
+    <p class="lab-lede">A capacitor never changes voltage instantly: it takes one time constant to reach 63 % of the source. Move the cursor over the graticule and read the exact point.</p>
+  </div>
+
+  <div class="lab-grid">
+
+    <section class="panel">
+      <div class="panel__title" data-t="ctrl">Controles</div>
+
+      <div class="ctl">
+        <div class="ctl__top"><span class="ctl__label" data-t="v0">Tensión de fuente</span><span class="ctl__val" id="v0Out">12,0 V</span></div>
+        <input type="range" id="v0" min="1" max="24" step="0.5" value="12">
+      </div>
+      <div class="ctl">
+        <div class="ctl__top"><span class="ctl__label" data-t="rr">Resistencia</span><span class="ctl__val" id="rOut">2,2 kΩ</span></div>
+        <input type="range" id="r" min="10" max="20000" step="10" value="2200">
+      </div>
+      <div class="ctl">
+        <div class="ctl__top"><span class="ctl__label" data-t="cc">Capacidad</span><span class="ctl__val" id="cOut">100 µF</span></div>
+        <input type="range" id="c" min="0.1" max="2000" step="0.1" value="100">
+      </div>
+
+      <div class="panel__title" style="margin-top:1.2rem" data-t="mode">Estado del interruptor</div>
+      <div class="mode">
+        <button class="lbtn" type="button" id="mCharge" aria-pressed="true" data-t="charge">Cargando</button>
+        <button class="lbtn" type="button" id="mDischarge" aria-pressed="false" data-t="discharge">Descargando</button>
+      </div>
+    </section>
+
+    <section>
+      <div class="screen">
+        <canvas class="plot" id="plot" width="1200" height="620" tabindex="0"
+                role="img" aria-label="Respuesta de tensión del condensador"></canvas>
+      </div>
+
+      <div class="legend" style="color:#7f95a4">
+        <span><i style="border-color:#38d2e8"></i><span data-t="trace">v<sub>C</sub>(t)</span></span>
+        <span><i style="border-color:#f2a93b"></i><span data-t="tau">t = τ (63,2 %)</span></span>
+        <span><i style="border-color:#5d7a8c"></i><span data-t="vsrc">V fuente</span></span>
+      </div>
+
+      <div class="out" style="margin-top:1rem">
+        <div class="out__row"><span class="out__k" data-t="ktau">Constante de tiempo τ = RC</span><span class="out__v" id="oTau">—</span></div>
+        <div class="out__row"><span class="out__k" data-t="k63">Al 63,2 % del valor final</span><span class="out__v" id="o63">—</span></div>
+        <div class="out__row"><span class="out__k" data-t="k5">Prácticamente al final (5 τ)</span><span class="out__v" id="o5">—</span></div>
+        <div class="out__row"><span class="out__k" data-t="ke">Energía almacenada E = ½CV²</span><span class="out__v" id="oE">—</span></div>
+        <div class="out__row"><span class="out__k" data-t="kcursor">En el cursor</span><span class="out__v" id="oCur">—</span></div>
+      </div>
+
+      <div class="note">
+        <b data-t="why">Por qué importa.</b>
+        <span data-t-html="whyText">Con R = 2,2 kΩ y C = 100 µF el condensador tarda τ = 220 ms en cargarse: ese es el retraso que introduce un filtro o un relé en la salida.</span>
+      </div>
+    </section>
+  </div>
+
+  <nav class="lab-nav">
+    <a href="../circuitos-ohm/index.html"><span data-t="nav1">← Ley de Ohm</span></a>
+    <a href="../guia-taller/index.html"><span data-t="nav2">Guía de taller</span> →</a>
+  </nav>
+</main>
+
+<script src="../../assets/js/lab-kit.js"></script>
+<script>
+const L = LabKit.mount({
+  es: {
+    back: 'Índice', short: 'Respuesta RC', theme: 'Tema',
+    ctrl: 'Controles', v0: 'Tensión de fuente', rr: 'Resistencia', cc: 'Capacidad',
+    mode: 'Estado del interruptor', charge: 'Cargando', discharge: 'Descargando',
+    trace: 'vC(t)', tau: 't = τ (63,2 %)', vsrc: 'V fuente',
+    ktau: 'Constante de tiempo τ = RC', k63: 'Al 63,2 % del valor final',
+    k5: 'Prácticamente al final (5 τ)', ke: 'Energía almacenada E = ½CV²', kcursor: 'En el cursor',
+    why: 'Por qué importa.',
+    whyText: 'Con R = 2,2 kΩ y C = 100 µF el condensador tarda τ = 220 ms en cargarse: ese es el retraso que introduce un filtro o un relé en la salida.',
+    nav1: 'Ley de Ohm', nav2: 'Guía de taller',
+  },
+  en: {
+    back: 'Index', short: 'RC response', theme: 'Theme',
+    ctrl: 'Controls', v0: 'Source voltage', rr: 'Resistance', cc: 'Capacitance',
+    mode: 'Switch state', charge: 'Charging', discharge: 'Discharging',
+    trace: 'vC(t)', tau: 't = τ (63.2 %)', vsrc: 'Source V',
+    ktau: 'Time constant τ = RC', k63: 'At 63.2 % of the final value',
+    k5: 'Effectively complete (5 τ)', ke: 'Stored energy E = ½CV²', kcursor: 'At the cursor',
+    why: 'Why it matters.',
+    whyText: 'With R = 2.2 kΩ and C = 100 µF the capacitor takes τ = 220 ms to charge: that is the delay a filter or a relay introduces in the output.',
+    nav1: 'Ohm’s law', nav2: 'Workshop guide',
+  },
+});
+
+const $ = (s) => document.querySelector(s);
+const v0El = $('#v0'), rEl = $('#r'), cEl = $('#c');
+const plot = $('#plot');
+const ctx = plot.getContext('2d');
+
+let charging = true;
+let cursor = 1.0;      // en múltiplos de τ
+let hoverX = null;
+
+const T_MAX = 5;       // la ventana del osciloscopio llega hasta 5 τ
+
+function fmt(x, d) {
+  return Number(x).toLocaleString(L.lang === 'en' ? 'en-GB' : 'es-ES', { minimumFractionDigits: d, maximumFractionDigits: d });
+}
+function fmtTime(s) {
+  if (s >= 1) return fmt(s, 2) + ' s';
+  if (s >= 1e-3) return fmt(s * 1e3, 1) + ' ms';
+  return fmt(s * 1e6, 0) + ' µs';
+}
+function fmtOhm(r) {
+  if (r >= 1e6) return fmt(r / 1e6, 2) + ' MΩ';
+  if (r >= 1e3) return fmt(r / 1e3, 2) + ' kΩ';
+  return fmt(r, 0) + ' Ω';
+}
+
+/** tensión del condensador en t (segundos) */
+function vc(t, tau, V0) {
+  return charging ? V0 * (1 - Math.exp(-t / tau)) : V0 * Math.exp(-t / tau);
+}
+
+function draw() {
+  const V0 = parseFloat(v0El.value);
+  const R = parseFloat(rEl.value);
+  const C = parseFloat(cEl.value) * 1e-6;
+  const tau = R * C;
+  const T = tau * T_MAX;
+
+  //Escala
+  const dpr = Math.min(window.devicePixelRatio || 1, 2);
+  const cssW = plot.clientWidth || 1200;
+  const cssH = Math.round(cssW * (620 / 1200));
+  if (plot.width !== Math.round(cssW * dpr)) {
+    plot.width = Math.round(cssW * dpr);
+    plot.height = Math.round(cssH * dpr);
+  }
+  ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
+  const W = cssW, H = cssH;
+
+  // fondo del "pantalla" y retícula
+  ctx.fillStyle = '#05090d';
+  ctx.fillRect(0, 0, W, H);
+  ctx.strokeStyle = 'rgba(120,170,190,0.10)';
+  ctx.lineWidth = 1;
+  ctx.beginPath();
+  for (let i = 1; i < 10; i++) { ctx.moveTo((W / 10) * i, 0); ctx.lineTo((W / 10) * i, H); }
+  for (let i = 1; i < 8; i++) { ctx.moveTo(0, (H / 8) * i); ctx.lineTo(W, (H / 8) * i); }
+  ctx.stroke();
+  ctx.strokeStyle = 'rgba(120,170,190,0.26)';
+  ctx.beginPath();
+  ctx.moveTo(W / 2, 0); ctx.lineTo(W / 2, H);
+  ctx.moveTo(0, H / 2); ctx.lineTo(W, H / 2);
+  ctx.stroke();
+
+  const padL = 62, padR = 16, padT = 18, padB = 40;
+  const x0 = padL, x1 = W - padR, y0 = H - padB, y1 = padT;
+  const X = (t) => x0 + (t / T) * (x1 - x0);
+  const Y = (v) => {
+    const max = charging ? V0 * 1.12 : V0 * 1.12;
+    return y0 - (v / max) * (y0 - y1);
+  };
+
+  // ejes
+  ctx.strokeStyle = 'rgba(180,215,230,0.5)';
+  ctx.beginPath();
+  ctx.moveTo(x0, y1); ctx.lineTo(x0, y0); ctx.lineTo(x1, y0);
+  ctx.stroke();
+
+  ctx.fillStyle = 'rgba(190,220,232,0.75)';
+  ctx.font = '13px "IBM Plex Mono", monospace';
+  ctx.textAlign = 'right';
+  ctx.textBaseline = 'middle';
+  for (let k = 0; k <= 4; k++) {
+    const v = (V0 * 1.12 * k) / 4;
+    const y = Y(v);
+    ctx.fillText(v.toFixed(v < 10 ? 1 : 0), x0 - 8, y);
+    ctx.strokeStyle = 'rgba(120,170,190,0.12)';
+    ctx.beginPath(); ctx.moveTo(x0, y); ctx.lineTo(x1, y); ctx.stroke();
+  }
+  ctx.textAlign = 'center';
+  ctx.textBaseline = 'top';
+  for (let k = 0; k <= T_MAX; k++) {
+    const t = k * tau;
+    const x = X(t);
+    ctx.fillStyle = 'rgba(190,220,232,0.75)';
+    ctx.fillText(t === 0 ? '0' : fmtTime(t), x, y0 + 8);
+  }
+
+  // línea de la fuente
+  ctx.strokeStyle = 'rgba(93,122,140,0.85)';
+  ctx.setLineDash([6, 6]);
+  ctx.beginPath();
+  ctx.moveTo(x0, Y(V0)); ctx.lineTo(x1, Y(V0));
+  ctx.stroke();
+  ctx.setLineDash([]);
+
+  // marcador de τ
+  const tauFrac = 1 - Math.exp(-1); // 0.632
+  ctx.strokeStyle = 'rgba(242,169,59,0.55)';
+  ctx.beginPath();
+  ctx.moveTo(X(tau), y1); ctx.lineTo(X(tau), y0);
+  ctx.stroke();
+
+  // traza principal
+  ctx.strokeStyle = '#38d2e8';
+  ctx.lineWidth = 2.4;
+  ctx.lineJoin = 'round';
+  ctx.shadowColor = 'rgba(56,210,232,0.55)';
+  ctx.shadowBlur = 10;
+  ctx.beginPath();
+  for (let i = 0; i <= 460; i++) {
+    const t = (i / 460) * T;
+    const x = X(t), y = Y(vc(t, tau, V0));
+    i ? ctx.lineTo(x, y) : ctx.moveTo(x, y);
+  }
+  ctx.stroke();
+  ctx.shadowBlur = 0;
+
+  // cursor
+  const cx = hoverX === null ? X(cursor * tau) : hoverX;
+  const ct = ((cx - x0) / (x1 - x0)) * T;
+  const cv = vc(Math.max(0, ct), tau, V0);
+  ctx.strokeStyle = 'rgba(232,241,246,0.45)';
+  ctx.setLineDash([3, 4]);
+  ctx.beginPath();
+  ctx.moveTo(cx, y1); ctx.lineTo(cx, y0);
+  ctx.stroke();
+  ctx.setLineDash([]);
+  ctx.fillStyle = '#e8f1f6';
+  ctx.beginPath();
+  ctx.arc(cx, Y(cv), 5, 0, 6.283);
+  ctx.fill();
+
+  // lecturas
+  $('#v0Out').textContent = fmt(V0, 1) + ' V';
+  $('#rOut').textContent = fmtOhm(R);
+  $('#cOut').textContent = fmt(C * 1e6, 1) + ' µF';
+  $('#oTau').innerHTML = fmtTime(tau);
+  $('#o63').innerHTML = fmtTime(tau) + '<small>' + fmt(tauFrac * 100, 1) + ' %</small>';
+  $('#o5').innerHTML = fmtTime(5 * tau);
+  $('#oE').innerHTML = fmt(0.5 * C * V0 * V0 * 1000, 1) + '<small>mJ</small>';
+  $('#oCur').innerHTML = fmtTime(Math.max(0, ct)) + ' · ' + fmt(cv, 2) + '<small>V</small>';
+
+  [v0El, rEl, cEl].forEach((el) => {
+    const pct = ((el.value - el.min) / (el.max - el.min)) * 100;
+    el.style.setProperty('--fill', pct.toFixed(1) + '%');
+  });
+}
+
+function setMode(ch) {
+  charging = ch;
+  $('#mCharge').setAttribute('aria-pressed', String(ch));
+  $('#mDischarge').setAttribute('aria-pressed', String(!ch));
+  draw();
+}
+
+[v0El, rEl, cEl].forEach((el) => el.addEventListener('input', draw));
+$('#mCharge').addEventListener('click', () => setMode(true));
+$('#mDischarge').addEventListener('click', () => setMode(false));
+
+plot.addEventListener('pointermove', (e) => {
+  const r = plot.getBoundingClientRect();
+  hoverX = Math.max(62, Math.min(r.width - 16, e.clientX - r.left));
+  draw();
+});
+plot.addEventListener('pointerleave', () => { hoverX = null; draw(); });
+plot.addEventListener('keydown', (e) => {
+  const step = e.key === 'ArrowLeft' ? -0.05 : e.key === 'ArrowRight' ? 0.05 : 0;
+  if (!step) return;
+  e.preventDefault();
+  cursor = Math.max(0, Math.min(T_MAX, cursor + step));
+  hoverX = null;
+  draw();
+});
+
+new ResizeObserver(draw).observe(plot);
+L.onChange(draw);
+draw();
+</script>
+</body>
+</html>

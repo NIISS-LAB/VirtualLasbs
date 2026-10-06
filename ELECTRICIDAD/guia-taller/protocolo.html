@@ -1,0 +1,114 @@
+<!doctype html>
+<html lang="es">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Protocolo de medición · Virtual Lab Center</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Saira:wght@300;400;500;600;700&family=IBM+Plex+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="../../assets/css/lab.css">
+</head>
+<body>
+
+<header class="lab-head">
+  <a class="lab-back" href="../../index.html">
+    <svg class="ic" width="14" height="14" viewBox="0 0 24 24" aria-hidden="true"><path d="M14.5 5L8 12l6.5 7" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+    <span data-t="back">Índice</span>
+  </a>
+  <div class="lab-head__title"><span data-t="short">Protocolo de medición</span><small>guia-taller/protocolo.html</small></div>
+  <div class="lab-head__tools">
+    <button class="lbtn" type="button" data-lab-lang-toggle data-lang-label>ES</button>
+    <button class="lbtn" type="button" data-lab-theme-toggle data-t-aria="theme" aria-label="Tema">◐</button>
+  </div>
+</header>
+
+<main class="lab-main">
+
+  <div data-lang-only="es">
+    <p class="lab-eyebrow">Práctica 03 · Protocolo</p>
+    <h1>Protocolo de medición</h1>
+    <p class="lab-lede">Diez pasos, en orden. No avances al siguiente hasta tener la lectura anterior anotada en el cuaderno del grupo.</p>
+
+    <div class="note note--warn"><b>Seguridad.</b> Nunca conectes el osciloscopio a un nodo que esté a 220 V. Trabaja siempre por debajo de 30 V y descarga los condensadores antes de tocarlos.</div>
+
+    <div class="panel" style="margin-top:1rem">
+      <ol class="steps">
+        <li><b>Deja la fuente a 0 V</b><span>Interruptor en OFF, salida desconectada. Comprueba con el multímetro antes de seguir.</span></li>
+        <li><b>Monta la carga resistiva</b><span>Resistencia de 220 Ω entre los bornes + y − de la fuente. Un solo elemento, sin cables enrollados.</span></li>
+        <li><b>Sube la fuente a 12 V</b><span>En pasos de 2 V. La lectura debe estabilizarse en 12,0 ± 0,2 V.</span></li>
+        <li><b>Mide la corriente en serie</b><span>Abre el circuito, coloca el multímetro en mA en serie y anota I = 54 mA ± 2 mA.</span></li>
+        <li><b>Calcula la resistencia real</b><span>R = V / I. Si el resultado se aparta más de un 5 % del valor nominal, revisa el apriete de la borna.</span></li>
+        <li><b>Comprueba la potencia</b><span>P = V · I ≈ 0,65 W. Necesitas una resistencia de 1 W o dos de ½ W en paralelo.</span></li>
+        <li><b>Añade el filtro RC</b><span>En serie la resistencia de 2,2 kΩ y en paralelo el condensador de 100 µF, con el punto de salida sobre la carga.</span></li>
+        <li><b>Observa la carga en el osciloscopio</b><span>Canal 1 a 2 V/div, base de tiempos a 100 ms/div. La curva debe alcanzar el 63 % de 12 V en 220 ms.</span></li>
+        <li><b>Mide la constante de tiempo</b><span>τ = R · C = 220 ms. Compara con la lectura del cursor del simulador: la diferencia objetivo es menor de 8 %.</span></li>
+        <li><b>Apaga y desmonta</b><span>Fuente a 0 V antes de desconectar cualquier cosa. Entrega el registro con las diez lecturas anotadas.</span></li>
+      </ol>
+    </div>
+
+    <div class="panel" style="margin-top:1rem">
+      <div class="panel__title">Lecturas esperadas</div>
+      <table>
+        <thead><tr><th>Magnitud</th><th>Teórico</th><th>Medido en banco</th><th>Tolerancia</th></tr></thead>
+        <tbody>
+          <tr><td>Tensión en la carga</td><td class="num">12,00 V</td><td class="num">11,9 – 12,1 V</td><td>± 2 %</td></tr>
+          <tr><td>Corriente</td><td class="num">54,5 mA</td><td class="num">52 – 57 mA</td><td>± 5 %</td></tr>
+          <tr><td>Potencia en R</td><td class="num">0,65 W</td><td class="num">0,60 – 0,70 W</td><td>± 8 %</td></tr>
+          <tr><td>Constante de tiempo</td><td class="num">220 ms</td><td class="num">200 – 240 ms</td><td>± 8 %</td></tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+
+  <div data-lang-only="en">
+    <p class="lab-eyebrow">Lab 03 · Protocol</p>
+    <h1>Measurement protocol</h1>
+    <p class="lab-lede">Ten steps, in order. Do not move to the next one until the previous reading is written in the group notebook.</p>
+
+    <div class="note note--warn"><b>Safety.</b> Never attach the oscilloscope to a node at 220 V. Always work below 30 V and discharge the capacitors before touching them.</div>
+
+    <div class="panel" style="margin-top:1rem">
+      <ol class="steps">
+        <li><b>Set the supply to 0 V</b><span>Switch OFF, output disconnected. Verify with the multimeter before continuing.</span></li>
+        <li><b>Build the resistive load</b><span>A 220 Ω resistor between the + and − terminals of the supply. One single part, no coiled wires.</span></li>
+        <li><b>Raise the supply to 12 V</b><span>In 2 V steps. The reading must settle at 12.0 ± 0.2 V.</span></li>
+        <li><b>Measure current in series</b><span>Open the circuit, set the multimeter to mA in series and log I = 54 mA ± 2 mA.</span></li>
+        <li><b>Compute the real resistance</b><span>R = V / I. If the result is more than 5 % off the nominal value, check the terminal tightness.</span></li>
+        <li><b>Check the power</b><span>P = V · I ≈ 0.65 W. You need a 1 W resistor or two ½ W in parallel.</span></li>
+        <li><b>Add the RC filter</b><span>2.2 kΩ in series and 100 µF in parallel, with the output node taken across the load.</span></li>
+        <li><b>Watch the charge on the scope</b><span>Channel 1 at 2 V/div, timebase 100 ms/div. The curve must reach 63 % of 12 V at 220 ms.</span></li>
+        <li><b>Measure the time constant</b><span>τ = R · C = 220 ms. Compare with the simulator cursor reading: the target difference is under 8 %.</span></li>
+        <li><b>Power down and dismantle</b><span>Supply to 0 V before disconnecting anything. Hand in the log with all ten readings.</span></li>
+      </ol>
+    </div>
+
+    <div class="panel" style="margin-top:1rem">
+      <div class="panel__title">Expected readings</div>
+      <table>
+        <thead><tr><th>Quantity</th><th>Theory</th><th>Bench reading</th><th>Tolerance</th></tr></thead>
+        <tbody>
+          <tr><td>Voltage on the load</td><td class="num">12.00 V</td><td class="num">11.9 – 12.1 V</td><td>± 2 %</td></tr>
+          <tr><td>Current</td><td class="num">54.5 mA</td><td class="num">52 – 57 mA</td><td>± 5 %</td></tr>
+          <tr><td>Power in R</td><td class="num">0.65 W</td><td class="num">0.60 – 0.70 W</td><td>± 8 %</td></tr>
+          <tr><td>Time constant</td><td class="num">220 ms</td><td class="num">200 – 240 ms</td><td>± 8 %</td></tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+
+  <nav class="lab-nav">
+    <a href="index.html"><span data-t="nav1">← Guía de taller</span></a>
+    <a href="materiales.html"><span data-t="nav2">Materiales y equipos</span> →</a>
+  </nav>
+</main>
+
+<script src="../../assets/js/lab-kit.js"></script>
+<script>
+LabKit.mount({
+  es: { back: 'Índice', short: 'Protocolo de medición', theme: 'Tema', nav1: 'Guía de taller', nav2: 'Materiales y equipos' },
+  en: { back: 'Index', short: 'Measurement protocol', theme: 'Theme', nav1: 'Workshop guide', nav2: 'Materials and equipment' },
+});
+</script>
+</body>
+</html>

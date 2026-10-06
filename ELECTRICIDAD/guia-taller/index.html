@@ -1,0 +1,136 @@
+<!doctype html>
+<html lang="es">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Guía de taller · Virtual Lab Center</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Saira:wght@300;400;500;600;700&family=IBM+Plex+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="../../assets/css/lab.css">
+</head>
+<body>
+
+<header class="lab-head">
+  <a class="lab-back" href="../../index.html">
+    <svg class="ic" width="14" height="14" viewBox="0 0 24 24" aria-hidden="true"><path d="M14.5 5L8 12l6.5 7" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+    <span data-t="back">Índice</span>
+  </a>
+  <div class="lab-head__title"><span data-t="short">Guía de taller</span><small>guia-taller/index.html</small></div>
+  <div class="lab-head__tools">
+    <button class="lbtn" type="button" data-lab-lang-toggle data-lang-label>ES</button>
+    <button class="lbtn" type="button" data-lab-theme-toggle data-t-aria="theme" aria-label="Tema">◐</button>
+  </div>
+</header>
+
+<main class="lab-main">
+
+  <div data-lang-only="es">
+    <p class="lab-eyebrow">Práctica 03 · Taller y protocolo</p>
+    <h1>Guía de taller</h1>
+    <p class="lab-lede">Taller de medición en banco: cada grupo monta el circuito, mide con multímetro y osciloscopio, y contrasta el resultado con los simuladores de este centro.</p>
+
+    <div class="out" style="margin-top:1.4rem">
+      <div class="out__row"><span class="out__k">Duración de la sesión</span><span class="out__v">90<small>min</small></span></div>
+      <div class="out__row"><span class="out__k">Grupos por aula</span><span class="out__v">4</span></div>
+      <div class="out__row"><span class="out__k">Equipos por grupo</span><span class="out__v">1<small>banco</small></span></div>
+      <div class="out__row"><span class="out__k">Página de protocolo</span><span class="out__v"><a href="protocolo.html" style="color:var(--accent)">10<small>pasos</small></a></span></div>
+    </div>
+
+    <div class="panel" style="margin-top:1rem">
+      <div class="panel__title">Antes de empezar</div>
+      <ul class="check" id="checkEs">
+        <li><label><input type="checkbox"><span>Fuente de alimentación a 0 V y desenchufada</span></label></li>
+        <li><label><input type="checkbox"><span>Multímetro con la pila cambiada y las puntas en corto</span></label></li>
+        <li><label><input type="checkbox"><span>Osciloscopio con la masa conectada a tierra de la mesa</span></label></li>
+        <li><label><input type="checkbox"><span>Componentes de la lista de materiales completa</span></label></li>
+        <li><label><input type="checkbox"><span>Cuaderno de registro abierto por grupo</span></label></li>
+      </ul>
+    </div>
+
+    <div class="panel" style="margin-top:1rem">
+      <div class="panel__title">Qué se mide</div>
+      <p>Con la fuente a 12 V se monta una carga resistiva y después un filtro RC. Se registran tres magnitudes —tensión, corriente y tiempo de respuesta— y se comparan con los valores que predice la teoría. La discrepancia por encima del 8 % indica un error de montaje, no un error de fórmula.</p>
+      <div class="note">Los simuladores de este centro sirven de referencia: <a href="../circuitos-ohm/index.html">Ley de Ohm</a> para la parte resistiva y <a href="../osciloscopio-rc/index.html">respuesta RC</a> para el transitorio.</div>
+    </div>
+  </div>
+
+  <div data-lang-only="en">
+    <p class="lab-eyebrow">Lab 03 · Workshop and protocol</p>
+    <h1>Workshop guide</h1>
+    <p class="lab-lede">Bench measurement workshop: each group builds the circuit, measures with a multimeter and a scope, then checks the result against the simulators in this center.</p>
+
+    <div class="out" style="margin-top:1.4rem">
+      <div class="out__row"><span class="out__k">Session length</span><span class="out__v">90<small>min</small></span></div>
+      <div class="out__row"><span class="out__k">Groups per classroom</span><span class="out__v">4</span></div>
+      <div class="out__row"><span class="out__k">Equipment per group</span><span class="out__v">1<small>bench</small></span></div>
+      <div class="out__row"><span class="out__k">Protocol page</span><span class="out__v"><a href="protocolo.html" style="color:var(--accent)">10<small>steps</small></a></span></div>
+    </div>
+
+    <div class="panel" style="margin-top:1rem">
+      <div class="panel__title">Before you start</div>
+      <ul class="check" id="checkEn">
+        <li><label><input type="checkbox"><span>Power supply at 0 V and unplugged</span></label></li>
+        <li><label><input type="checkbox"><span>Multimeter with a fresh battery and leads shorted</span></label></li>
+        <li><label><input type="checkbox"><span>Scope ground attached to the bench ground</span></label></li>
+        <li><label><input type="checkbox"><span>All components from the material list in hand</span></label></li>
+        <li><label><input type="checkbox"><span>Lab notebook open for the group</span></label></li>
+      </ul>
+    </div>
+
+    <div class="panel" style="margin-top:1rem">
+      <div class="panel__title">What gets measured</div>
+      <p>With the supply at 12 V the group builds a resistive load and then an RC filter. Three quantities are logged —voltage, current and response time— and compared with what the theory predicts. A gap above 8 % points to a wiring mistake, not a wrong formula.</p>
+      <div class="note">The simulators in this center are the reference: <a href="../circuitos-ohm/index.html">Ohm’s law</a> for the resistive part and <a href="../osciloscopio-rc/index.html">RC response</a> for the transient.</div>
+    </div>
+  </div>
+
+  <nav class="lab-nav">
+    <a href="protocolo.html"><span data-t="nav1">Protocolo de medición</span> →</a>
+    <a href="materiales.html"><span data-t="nav2">Materiales y equipos</span> →</a>
+  </nav>
+</main>
+
+<script src="../../assets/js/lab-kit.js"></script>
+<script>
+const L = LabKit.mount({
+  es: { back: 'Índice', short: 'Guía de taller', theme: 'Tema', nav1: 'Protocolo de medición', nav2: 'Materiales y equipos' },
+  en: { back: 'Index', short: 'Workshop guide', theme: 'Theme', nav1: 'Measurement protocol', nav2: 'Materials and equipment' },
+});
+
+// la lista de comprobación se recuerda por grupo
+(function () {
+  const KEY = 'vlc-check-guia-taller';
+  const lists = [document.getElementById('checkEs'), document.getElementById('checkEn')].filter(Boolean);
+  if (!lists.length) return;
+
+  let saved = [];
+  try { saved = JSON.parse(localStorage.getItem(KEY) || '[]'); } catch (e) { /* ignorar */ }
+
+  const sync = () =>
+    lists.forEach((ul) =>
+      ul.querySelectorAll('input[type=checkbox]').forEach((box, i) => { box.checked = Boolean(saved[i]); })
+    );
+
+  lists.forEach((ul) => {
+    ul.querySelectorAll('input[type=checkbox]').forEach((box, i) => {
+      box.checked = Boolean(saved[i]);
+      box.addEventListener('change', () => {
+        saved = Array.prototype.map.call(
+          ul.querySelectorAll('input[type=checkbox]'),
+          (b) => b.checked
+        );
+        try { localStorage.setItem(KEY, JSON.stringify(saved)); } catch (e) { /* ignorar */ }
+        lists.forEach((other) => {
+          if (other === ul) return;
+          other.querySelectorAll('input[type=checkbox]').forEach((b, j) => { b.checked = Boolean(saved[j]); });
+        });
+      });
+    });
+  });
+
+  L.onChange(sync);
+})();
+</script>
+</body>
+</html>

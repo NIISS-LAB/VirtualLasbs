@@ -1,0 +1,848 @@
+/* =============================================================================
+ * MOHR LAB — styles.css
+ *
+ * SISTEMA VISUAL
+ *   Concepto: "banco de instrumentos", no panel de control comercial.
+ *   Chasis frío de grafito, reglas grabadas de un píxel, tipografía DIN para los
+ *   rótulos estructurales y monoespaciada tabular para toda lectura numérica.
+ *   El color NO decora: tensiona azul = tracción, rojo = compresión, latón =
+ *   cortante. Cualquier estado lleva además un glifo textual (↑ ↓ →), de modo
+ *   que nunca depende sólo del color.
+ *
+ *   Tipografía (sólo fuentes del sistema: la aplicación funciona sin conexión)
+ *     --f-tech  Bahnschrift / DIN Alternate / Roboto Condensed → rótulos, ejes
+ *     --f-mono  Cascadia Mono / Consolas / SF Mono → toda cifra
+ *     --f-body  Segoe UI / system-ui → prosa explicativa
+ * ========================================================================== */
+
+/* ─────────────────────────────────────────────────────────── 1. Tokens ─── */
+:root {
+  /* Chasis */
+  --void:      #080b0f;
+  --chassis:   #0f151c;
+  --panel:     #141c25;
+  --panel-2:   #1a232e;
+  --panel-3:   #212c39;
+  /* Reglas grabadas */
+  --rule:      #1e2833;
+  --rule-2:    #2b3947;
+  --axis:      #3a4a5a;
+  /* Tinta */
+  --ink:       #dbe4ee;
+  --ink-2:     #a8b8c8;
+  --ink-dim:   #7d8fa3;
+  --ink-faint: #566878;
+  /* Semántica: los tres componentes del esfuerzo */
+  --tension:    #4ea8e0;
+  --compression: #e0705a;
+  --shear:      #d8a33c;
+  --accent:     #4ea8e0;
+  --principal:  #8fa6bd;
+  --neutral-mark: #566878;
+
+  --f-tech: "Bahnschrift", "DIN Alternate", "Roboto Condensed", "Arial Narrow", "Segoe UI", sans-serif;
+  --f-mono: "Cascadia Mono", "JetBrains Mono", "SF Mono", "Consolas", "Roboto Mono", ui-monospace, monospace;
+  --f-body: "Segoe UI", system-ui, -apple-system, "Helvetica Neue", Arial, sans-serif;
+
+  --gap: 1px;
+  --pad: 14px;
+  --topbar-h: 60px;
+}
+
+* { box-sizing: border-box; }
+
+html, body { height: 100%; }
+
+body {
+  margin: 0;
+  display: flex;
+  flex-direction: column;
+  background: var(--void);
+  color: var(--ink);
+  font-family: var(--f-body);
+  font-size: 13.5px;
+  line-height: 1.5;
+  overflow: hidden;
+  -webkit-font-smoothing: antialiased;
+}
+
+::selection { background: rgba(78,168,224,.28); }
+
+.skip-link {
+  position: absolute; left: -9999px; top: 0; z-index: 100;
+  background: var(--panel-3); color: var(--ink); padding: 8px 14px;
+  border: 1px solid var(--accent); font-size: 12px;
+}
+.skip-link:focus { left: 8px; top: 8px; }
+
+:focus-visible {
+  outline: 1px solid var(--accent);
+  outline-offset: 1px;
+}
+
+/* Rótulo estructural grabado, estilo cajetín de plano */
+.panel-title {
+  margin: 0 0 10px;
+  font-family: var(--f-tech);
+  font-size: 10.5px;
+  font-weight: 600;
+  letter-spacing: .15em;
+  text-transform: uppercase;
+  color: var(--ink-dim);
+  padding-bottom: 6px;
+  border-bottom: 1px solid var(--rule);
+}
+
+/* ────────────────────────────────────────────────────── 2. Cabecera ─── */
+.topbar {
+  flex: none;
+  display: flex;
+  align-items: center;
+  gap: 18px;
+  min-height: var(--topbar-h);
+  padding: 0 16px;
+  background: var(--panel);
+  border-bottom: 1px solid var(--rule);
+}
+
+.brand { display: flex; align-items: center; gap: 10px; }
+.brand-mark { color: var(--ink-dim); display: flex; }
+.brand-text { display: flex; flex-direction: column; line-height: 1.15; }
+.brand-name {
+  font-family: var(--f-tech);
+  font-size: 17px; font-weight: 700;
+  letter-spacing: .17em;
+  color: var(--ink);
+}
+/* Metadatos del cajetín de título: misma familia tipográfica, mismo color y un
+   grado por debajo del título.  Sin adornos: sólo escala, color y jerarquía. */
+.brand-sub, .brand-author {
+  font-family: var(--f-body);
+  color: var(--ink-dim);
+  font-weight: 400;
+  white-space: nowrap;
+}
+.brand-sub { font-size: 10px; letter-spacing: .05em; }
+.brand-author { font-size: 9.5px; letter-spacing: .03em; margin-top: 1px; }
+
+.mode-switch {
+  display: flex;
+  border: 1px solid var(--rule-2);
+  background: var(--chassis);
+}
+.mode-switch button {
+  appearance: none; border: 0; background: transparent;
+  color: var(--ink-dim);
+  font-family: var(--f-tech);
+  font-size: 12px; letter-spacing: .05em;
+  padding: 6px 13px;
+  cursor: pointer;
+}
+.mode-switch button + button { border-left: 1px solid var(--rule); }
+.mode-switch button:hover { color: var(--ink); background: var(--panel-2); }
+.mode-switch button.is-active { background: var(--panel-3); color: var(--ink); box-shadow: inset 0 -2px 0 var(--accent); }
+
+/* Cajetín de título: lectura permanente del estado, como en un plano */
+.titleblock {
+  display: flex;
+  border: 1px solid var(--rule);
+  background: var(--chassis);
+  margin-left: auto;
+}
+.tb-cell {
+  display: flex; flex-direction: column; justify-content: center;
+  padding: 4px 11px;
+  min-width: 66px;
+}
+.tb-cell + .tb-cell { border-left: 1px solid var(--rule); }
+.tb-cell span {
+  font-family: var(--f-tech);
+  font-size: 9px; letter-spacing: .12em; text-transform: uppercase;
+  color: var(--ink-faint);
+}
+.tb-cell b {
+  font-family: var(--f-mono);
+  font-size: 13px; font-weight: 500;
+  font-variant-numeric: tabular-nums;
+  color: var(--ink);
+}
+.tb-unit b { color: var(--accent); }
+
+.topbar-tools { display: flex; gap: 10px; align-items: center; }
+
+/* ─────────────────────────────────────────── 3. Controles de formulario ─── */
+.field { display: flex; flex-direction: column; gap: 3px; }
+.field-inline { flex-direction: row; align-items: center; gap: 6px; }
+.field-label {
+  font-family: var(--f-tech);
+  font-size: 9.5px; letter-spacing: .12em; text-transform: uppercase;
+  color: var(--ink-faint);
+}
+.field-unit { font-family: var(--f-mono); font-size: 10.5px; color: var(--ink-faint); }
+
+select, input[type="number"], input[type="text"] {
+  appearance: none;
+  background: var(--chassis);
+  color: var(--ink);
+  border: 1px solid var(--rule-2);
+  border-radius: 2px;
+  font-family: var(--f-mono);
+  font-size: 12px;
+  font-variant-numeric: tabular-nums;
+  padding: 4px 7px;
+  min-height: 26px;
+}
+select { padding-right: 20px; background-image: none; cursor: pointer; }
+option { background: var(--panel); color: var(--ink); }
+select:hover, input[type="number"]:hover { border-color: var(--ink-faint); }
+input[type="number"]:focus, select:focus { border-color: var(--accent); outline: none; }
+
+input[type="number"]::-webkit-outer-spin-button,
+input[type="number"]::-webkit-inner-spin-button { appearance: none; margin: 0; }
+input[type="number"] { -moz-appearance: textfield; }
+
+.btn, .btn-step {
+  appearance: none;
+  background: var(--panel-2);
+  color: var(--ink-dim);
+  border: 1px solid var(--rule-2);
+  border-radius: 2px;
+  font-family: var(--f-tech);
+  font-size: 11.5px; letter-spacing: .04em;
+  padding: 5px 10px;
+  cursor: pointer;
+  min-height: 26px;
+  transition: background .12s, color .12s, border-color .12s;
+}
+.btn:hover, .btn-step:hover { background: var(--panel-3); color: var(--ink); border-color: var(--ink-faint); }
+.btn:active, .btn-step:active { background: var(--chassis); }
+.btn-primary { border-color: var(--accent); color: var(--ink); }
+.btn-primary:hover { background: rgba(78,168,224,.14); border-color: var(--accent); }
+
+.btn-row { display: flex; gap: 6px; align-items: center; }
+.btn-row-wrap { flex-wrap: wrap; }
+
+.chk { display: flex; align-items: center; gap: 7px; font-size: 11.5px; color: var(--ink-2); cursor: pointer; padding: 2px 0; }
+.chk input { appearance: none; width: 12px; height: 12px; border: 1px solid var(--rule-2); background: var(--chassis); cursor: pointer; position: relative; }
+.chk input:checked { background: var(--accent); border-color: var(--accent); }
+.chk input:checked::after { content: ''; position: absolute; left: 3px; top: 0px; width: 3px; height: 7px; border: solid var(--void); border-width: 0 1.6px 1.6px 0; transform: rotate(42deg); }
+
+/* Deslizadores: pista fina grabado, pulgar cuadrado */
+input[type="range"] {
+  appearance: none; -webkit-appearance: none;
+  width: 100%; height: 18px;
+  background: transparent; cursor: pointer;
+}
+input[type="range"]::-webkit-slider-runnable-track {
+  height: 3px; background: var(--rule-2); border-radius: 0;
+}
+input[type="range"]::-moz-range-track { height: 3px; background: var(--rule-2); }
+input[type="range"]::-webkit-slider-thumb {
+  -webkit-appearance: none;
+  width: 9px; height: 15px; margin-top: -6px;
+  background: var(--ink-dim);
+  border: 0; border-radius: 1px;
+}
+input[type="range"]::-moz-range-thumb {
+  width: 9px; height: 15px; background: var(--ink-dim); border: 0; border-radius: 1px;
+}
+input[type="range"]:hover::-webkit-slider-thumb { background: var(--ink); }
+input[type="range"]:focus-visible::-webkit-slider-thumb { background: var(--accent); }
+
+/* ────────────────────────────────────────────────── 4. Estructura ─── */
+.app {
+  flex: 1;
+  display: grid;
+  grid-template-columns: 302px minmax(0, 1fr) 332px;
+  min-height: 0;
+}
+.col { min-width: 0; min-height: 0; overflow-y: auto; overscroll-behavior: contain; }
+.col-left  { background: var(--chassis); border-right: 1px solid var(--rule); }
+.col-right { background: var(--chassis); border-left: 1px solid var(--rule); }
+.col-stage { background: var(--void); display: flex; flex-direction: column; }
+
+.panel { padding: var(--pad) var(--pad) 16px; border-bottom: 1px solid var(--rule); }
+.panel-hint { margin: -4px 0 10px; font-size: 10.5px; line-height: 1.5; color: var(--ink-faint); }
+
+.flash {
+  margin: -4px 0 10px;
+  padding: 6px 9px;
+  font-size: 11px;
+  color: var(--ink);
+  background: rgba(78,168,224,.10);
+  border-left: 2px solid var(--accent);
+  animation: flashIn .18s ease-out;
+}
+@keyframes flashIn { from { opacity: 0; transform: translateY(-3px); } to { opacity: 1; transform: none; } }
+
+/* ─────────────────────────────────────────────── 5. Variables de entrada ─── */
+.vars { display: block; }
+.var { padding: 9px 0 11px; border-bottom: 1px dotted var(--rule); }
+.var:last-child { border-bottom: 0; }
+.var-head { display: flex; align-items: baseline; gap: 8px; margin-bottom: 5px; }
+.var-sym { font-family: var(--f-tech); font-size: 13px; color: var(--ink); cursor: pointer; }
+.var-sign { font-family: var(--f-mono); font-size: 13px; font-weight: 600; }
+.var-sign.is-pos { color: var(--tension); }
+.var-sign.is-neg { color: var(--compression); }
+.var-sign.is-zero { color: var(--ink-faint); }
+.var-desc { margin-left: auto; font-size: 10px; color: var(--ink-faint); letter-spacing: .03em; }
+.var-field { display: grid; grid-template-columns: 28px minmax(0,1fr) 28px; }
+.var-field input[type="number"] { border-radius: 2px 0 0 2px; border-right: 0; text-align: right; }
+.var-field .btn-step { border-radius: 0; font-family: var(--f-mono); font-size: 14px; padding: 0; }
+.var-field .btn-step:first-child { border-right: 0; }
+.var-field .btn-step:last-child { border-radius: 0 2px 2px 0; border-left: 0; }
+.var-range { margin-top: 7px; }
+
+/* ────────────────────────────────────────────────── 6. Casos predefinidos ─── */
+.cases { display: grid; grid-template-columns: 1fr 1fr; gap: 1px; background: var(--rule); border: 1px solid var(--rule); }
+.case {
+  appearance: none; border: 0; background: var(--panel);
+  text-align: left; padding: 7px 8px; cursor: pointer;
+  display: block; width: 100%;
+  transition: background .12s;
+}
+.case:hover { background: var(--panel-2); }
+.case-n { font-family: var(--f-mono); font-size: 9.5px; color: var(--accent); }
+.case-t { display: block; font-family: var(--f-tech); font-size: 11.5px; color: var(--ink); margin: 1px 0 1px; }
+.case-tag { display: block; font-family: var(--f-mono); font-size: 9px; color: var(--ink-faint); }
+
+/* ─────────────────────────── 7. Papel de cada parámetro ─── */
+.roles { display: grid; gap: 1px; background: var(--rule); border: 1px solid var(--rule); }
+.role { background: var(--panel); padding: 7px 9px 9px; }
+.role-top { display: flex; align-items: baseline; gap: 8px; }
+.role-sym { font-family: var(--f-tech); font-size: 12.5px; color: var(--ink); }
+.role-val { font-family: var(--f-mono); font-size: 12.5px; font-variant-numeric: tabular-nums; }
+.role-sigma.is-pos, .role-tau.is-pos { color: var(--tension); }
+.role-sigma.is-neg { color: var(--compression); }
+.role-tau.is-neg { color: var(--shear); }
+.role-tau { color: var(--shear); }
+.role-angle { color: var(--ink); }
+.role-val.is-zero, .role-val.is-neg.is-zero { color: var(--ink-faint); }
+.role-nat { margin-left: auto; font-size: 9.5px; color: var(--ink-faint); font-family: var(--f-tech); letter-spacing: .04em; }
+.role-dia { margin: 5px 0 6px; background: var(--chassis); border: 1px solid var(--rule); }
+.role-txt { margin: 0; font-size: 10px; line-height: 1.5; color: var(--ink-dim); }
+
+/* ────────────────── 7b. Construcción paso a paso del círculo ─── */
+.btn-mini { font-size: 10.5px; padding: 3px 8px; min-height: 22px; }
+.viewport figcaption .btn-mini { margin-left: 8px; }
+
+.build { margin-top: 6px; border-top: 1px solid var(--rule); padding-top: 7px; }
+.build[hidden] { display: none; }
+.build-ctl { display: flex; align-items: center; gap: 6px; flex-wrap: wrap; }
+.build-ctl .btn[disabled] { opacity: .38; cursor: default; }
+.build-segs { list-style: none; display: flex; gap: 2px; margin: 0 2px; padding: 0; }
+.build-seg { width: 15px; height: 4px; background: var(--rule-2); }
+.build-seg.is-done { background: var(--principal); }
+.build-seg.is-now { background: var(--accent); }
+.build-count { font-family: var(--f-mono); font-size: 10.5px; color: var(--ink-dim); margin-left: auto; }
+.build-t { margin: 7px 0 0; font-family: var(--f-tech); font-size: 12.5px; color: var(--ink); }
+.build-d { margin: 2px 0 0; font-size: 10.5px; line-height: 1.5; color: var(--ink-dim); }
+.build-f { margin: 5px 0 0; font-family: var(--f-mono); font-size: 10.5px; line-height: 1.5; color: var(--accent); word-break: break-word; }
+
+/* ───────────────────────────────────── 7. Estado y convención de signos ─── */
+.state-class { font-family: var(--f-tech); font-size: 13px; color: var(--ink); margin-bottom: 5px; }
+.state-note { margin: 0 0 7px; font-size: 11px; line-height: 1.55; color: var(--ink-dim); }
+.state-note b { color: var(--ink); font-weight: 600; }
+
+.warn {
+  font-size: 11px; line-height: 1.5;
+  color: var(--ink-2);
+  background: rgba(216,163,60,.08);
+  border-left: 2px solid var(--shear);
+  padding: 7px 9px; margin: 8px 0 0;
+}
+.note { font-size: 11px; line-height: 1.6; color: var(--ink-dim); margin: 9px 0 0; }
+.note b { color: var(--ink-2); }
+
+.conv-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 1px; background: var(--rule); border: 1px solid var(--rule); }
+.conv-cell { background: var(--panel); padding: 7px 8px 9px; }
+.conv-cell svg { display: block; width: 100%; height: auto; }
+.conv-cap { font-family: var(--f-mono); font-size: 9.5px; color: var(--ink-dim); margin-top: 3px; }
+.conv-txt { font-size: 9.5px; line-height: 1.45; color: var(--ink-faint); margin-top: 2px; }
+.conv-note { font-size: 10.5px; line-height: 1.55; color: var(--ink-dim); margin-top: 10px; }
+.conv-note b { color: var(--ink-2); }
+
+/* ─────────────────────────────────────────── 8. Visores y área central ─── */
+.stage-row { display: grid; grid-template-columns: 1fr 1fr; flex: none; }
+.viewport { margin: 0; padding: 8px 12px 6px; min-width: 0; }
+.stage-row .viewport + .viewport { border-left: 1px solid var(--rule); }
+.viewport-chart { border-top: 1px solid var(--rule); }
+.viewport-3d { border: 1px solid var(--rule); background: var(--panel); margin-top: 10px; padding: 6px; }
+
+.viewport figcaption {
+  display: flex; align-items: baseline; gap: 10px;
+  margin-bottom: 2px;
+}
+.cap-title {
+  font-family: var(--f-tech);
+  font-size: 10.5px; font-weight: 600; letter-spacing: .14em; text-transform: uppercase;
+  color: var(--ink-dim);
+}
+.cap-hint { font-size: 10px; color: var(--ink-faint); margin-left: auto; }
+.chart-legend { display: flex; gap: 12px; margin-left: auto; }
+.lg { display: flex; align-items: center; gap: 5px; font-size: 10.5px; color: var(--ink-2); cursor: pointer; }
+.lg input { appearance: none; width: 11px; height: 11px; border: 1px solid var(--rule-2); background: var(--chassis); position: relative; cursor: pointer; }
+.lg input:checked { border-color: currentColor; }
+.lg input:checked::after { content: ''; position: absolute; inset: 2px; background: currentColor; }
+.lg-swatch { width: 12px; height: 2px; }
+.lg-sigma { color: var(--tension); }
+.lg-tau { color: var(--shear); }
+
+.viz { display: block; width: 100%; height: auto; touch-action: none; }
+.viz .v-hit { cursor: grab; }
+.viz:active .v-hit { cursor: grabbing; }
+.viz:focus-visible { outline: 1px solid var(--accent); outline-offset: 2px; }
+
+/* ──────────────────────────────────────────── 9. Estilos de los SVG ─── */
+/* Elemento diferencial */
+.v-global-axis   { stroke: var(--axis); stroke-width: 1; stroke-dasharray: 3 4; }
+.v-axis-name     { fill: var(--ink-faint); font-family: var(--f-tech); font-size: 12px; }
+.v-ghost-edge    { stroke: var(--rule-2); stroke-width: 1; stroke-dasharray: 2 4; fill: none; }
+.v-element-face  { fill: #16202b; }
+.v-element-edge  { stroke: var(--ink-dim); stroke-width: 1.4; }
+.v-element-origin{ fill: var(--ink-faint); }
+.v-arrow         { stroke-width: 1.7; }
+.v-arrow-tension { stroke: var(--tension); }
+.v-arrow-compression { stroke: var(--compression); }
+.v-arrow-shear   { stroke: var(--shear); }
+.v-plane-principal { stroke: var(--principal); stroke-width: 1.1; stroke-dasharray: 7 3 2 3; }
+.v-plane-shear     { stroke: var(--shear); stroke-width: 1; stroke-dasharray: 2 4; opacity: .45; }
+.v-plane-principal-tag { fill: var(--principal); font-family: var(--f-tech); font-size: 11px; }
+.v-plane-shear-tag     { fill: var(--shear); font-family: var(--f-tech); font-size: 11px; }
+.v-value { font-family: var(--f-mono); font-size: 10.5px; paint-order: stroke;
+           stroke: var(--chassis); stroke-width: 3px; stroke-linejoin: round; }
+.v-value-tension { fill: var(--tension); }
+.v-value-compression { fill: var(--compression); }
+.v-value-shear { fill: var(--shear); }
+.v-face-tag { fill: var(--ink-faint); font-family: var(--f-tech); font-size: 10px; }
+.v-local-axis { fill: var(--principal); font-family: var(--f-tech); font-size: 11px; }
+.v-angle-ref { stroke: var(--rule-2); stroke-width: 1; }
+.v-angle-arc { stroke: var(--accent); stroke-width: 1.3; fill: none; }
+.v-angle-tag { fill: var(--accent); font-family: var(--f-mono); font-size: 12px; }
+
+/* Círculo de Mohr */
+.v-gridline { stroke: var(--rule); stroke-width: 1; }
+.v-plot-frame { fill: none; stroke: var(--rule-2); stroke-width: 1; }
+.v-tick { fill: var(--ink-faint); font-family: var(--f-mono); font-size: 10px; }
+.v-tick-zero { fill: var(--ink-dim); }
+.v-axis { stroke: var(--axis); stroke-width: 1.2; }
+.v-axis-title { fill: var(--ink-faint); font-family: var(--f-tech); font-size: 10.5px; letter-spacing: .06em; }
+.v-origin { fill: var(--ink-dim); stroke: var(--ink-dim); stroke-width: 1.2; }
+.v-centre-dot { fill: var(--ink-dim); }
+.v-circle { fill: rgba(78,168,224,.05); stroke: var(--accent); stroke-width: 1.5; }
+.v-circle-degenerate { fill: var(--accent); }
+.v-centre { stroke: var(--ink-dim); stroke-width: 1; }
+.v-centre-tag { fill: var(--ink-dim); font-family: var(--f-mono); font-size: 10.5px; }
+.v-radius { stroke: var(--rule-2); stroke-width: 1; stroke-dasharray: 3 3; }
+.v-radial-a { stroke: var(--ink-faint); stroke-width: 1; stroke-dasharray: 4 3; }
+.v-radial-p { stroke: var(--accent); stroke-width: 1.4; }
+.v-arc-2t { fill: none; stroke: var(--accent); stroke-width: 1.1; stroke-dasharray: 3 3; opacity: .85; }
+.v-arc-tag { fill: var(--accent); font-family: var(--f-mono); font-size: 11px; }
+.v-pt-a, .v-pt-b { fill: var(--chassis); stroke: var(--ink-dim); stroke-width: 1.4; }
+.v-pt-p { fill: var(--accent); stroke: var(--panel); stroke-width: 1.4; }
+.v-pt-p-halo { fill: none; stroke: var(--accent); stroke-width: 1; opacity: .35; }
+.v-pt-tension { fill: var(--tension); }
+.v-pt-compression { fill: var(--compression); }
+.v-pt-shear { fill: var(--shear); }
+.v-clabel { font-family: var(--f-mono); font-size: 10.5px; paint-order: stroke;
+            stroke: var(--panel); stroke-width: 3.2px; stroke-linejoin: round; }
+.v-clabel-ref { fill: var(--ink-dim); }
+.v-clabel-p { fill: var(--accent); font-weight: 600; }
+.v-clabel-principal { fill: var(--principal); }
+.v-clabel-shear { fill: var(--shear); }
+.v-clabel3d { font-family: var(--f-mono); font-size: 10px; paint-order: stroke; stroke: var(--panel); stroke-width: 3px; stroke-linejoin: round; }
+.v-offscale { fill: var(--shear); font-family: var(--f-tech); font-size: 9.5px; }
+.v-offscale-tick { stroke: var(--shear); stroke-width: 1.4; }
+
+/* Construcción paso a paso del círculo */
+.v-aux { stroke: var(--ink-faint); stroke-width: 1; }
+.v-aux-tag { fill: var(--ink-faint); font-family: var(--f-mono); font-size: 9.5px; }
+.v-build-seg { stroke: var(--principal); stroke-width: 1.3; }
+.v-build-seg.v-build-a { stroke: var(--tension); }
+.v-build-seg.v-build-b { stroke: var(--compression); }
+.v-build-seg.v-build-c { stroke: var(--shear); stroke-width: 1; stroke-dasharray: 4 3; }
+.v-build-pt { stroke: none; }
+.v-build-pt.v-build-a { fill: var(--tension); }
+.v-build-pt.v-build-b { fill: var(--compression); }
+.v-build-diam { stroke: var(--principal); stroke-width: 1.4; stroke-dasharray: 5 3; }
+.v-leg { stroke: var(--ink-dim); stroke-width: 1; }
+.v-leg-tag { fill: var(--ink-dim); font-family: var(--f-mono); font-size: 9.5px;
+            paint-order: stroke; stroke: var(--panel); stroke-width: 3px; stroke-linejoin: round; }
+
+/* Los tres círculos de Mohr en 3D (C1, C2, C3) */
+.v-circle3d { fill: none; stroke-width: 1.4; }
+.v-circle3d-c1 { stroke: var(--tension); }
+.v-circle3d-c2 { stroke: var(--shear); }
+.v-circle3d-c3 { stroke: var(--compression); stroke-width: 1.8; fill: rgba(224,112,90,.07); }
+.v-constr { stroke: var(--ink-faint); stroke-width: 1; stroke-dasharray: 3 3; }
+.v-constr-centre { stroke: var(--ink-dim); stroke-width: 1.4; }
+.v-constr-ext { stroke: var(--principal); stroke-width: 1.2; }
+.v-c3d-name { font-family: var(--f-tech); font-size: 13px; }
+.v-c3d-sub { font-family: var(--f-mono); font-size: 9px; fill: var(--ink-faint); }
+.v-c3d-name.v-circle3d-c1 { fill: var(--tension); }
+.v-c3d-name.v-circle3d-c2 { fill: var(--shear); }
+.v-c3d-name.v-circle3d-c3 { fill: var(--compression); }
+
+/* Mini-esquemas del papel de cada parámetro */
+.viz-role { display: block; width: 100%; height: auto; }
+.v-aux-axis { stroke: var(--axis); stroke-width: 1; }
+.v-aux-mini { fill: var(--ink-faint); font-family: var(--f-mono); font-size: 9px; }
+.v-aux-hi { fill: var(--ink-2); }
+
+/* Gráfica angular */
+.v-plot-frame { fill: none; stroke: var(--rule-2); stroke-width: 1; }
+.v-curve-sigma { fill: none; stroke: var(--tension); stroke-width: 1.9; }
+.v-curve-tau { fill: none; stroke: var(--shear); stroke-width: 1.9; }
+.v-ref-principal { stroke: var(--principal); stroke-width: 1; stroke-dasharray: 5 4; opacity: .7; }
+.v-ref-shear { stroke: var(--shear); stroke-width: 1; stroke-dasharray: 2 4; opacity: .55; }
+.v-ref-label { font-family: var(--f-mono); font-size: 9.5px; }
+.v-mark-line { stroke-width: 1; stroke-dasharray: 3 3; opacity: .8; }
+.v-cursor { stroke: var(--accent); stroke-width: 1.2; }
+.v-cursor-tag { fill: var(--accent); font-family: var(--f-mono); font-size: 10.5px; }
+.v-cur-dot { stroke: var(--panel); stroke-width: 1.2; }
+.v-cur-label { font-family: var(--f-mono); font-size: 10.5px; paint-order: stroke;
+               stroke: var(--panel); stroke-width: 3px; stroke-linejoin: round; }
+.v-cur-sigma { fill: var(--tension); }
+.v-cur-tau { fill: var(--shear); }
+
+/* ─────────────────────────────────────── 10. Pestañas y paneles de análisis ─── */
+.tabs {
+  flex: none;
+  display: flex;
+  gap: 1px;
+  background: var(--rule);
+  border-top: 1px solid var(--rule);
+  overflow-x: auto;
+}
+.tab {
+  appearance: none; border: 0; background: var(--panel);
+  color: var(--ink-dim);
+  font-family: var(--f-tech);
+  font-size: 11.5px; letter-spacing: .04em;
+  padding: 8px 13px;
+  cursor: pointer;
+  white-space: nowrap;
+  transition: background .12s, color .12s;
+}
+.tab:hover { background: var(--panel-2); color: var(--ink); }
+.tab.is-active { background: var(--chassis); color: var(--ink); box-shadow: inset 0 -2px 0 var(--accent); }
+.tab[hidden] { display: none; }
+
+.tabpanels { flex: 1; min-height: 170px; overflow-y: auto; overscroll-behavior: contain; background: var(--chassis); }
+.tabpanel { padding: 14px 16px 26px; }
+.tabpanel[hidden] { display: none; }
+.tabpanel h4 {
+  margin: 16px 0 7px;
+  font-family: var(--f-tech);
+  font-size: 10.5px; font-weight: 600;
+  letter-spacing: .14em; text-transform: uppercase;
+  color: var(--ink-dim);
+}
+.tabpanel h4:first-child { margin-top: 0; }
+.frag { display: contents; }
+
+/* ────────────────────────────────────────────────────── 11. Tablas ─── */
+.tbl { width: 100%; border-collapse: collapse; font-size: 12px; }
+.tbl th, .tbl td { padding: 4px 8px; vertical-align: baseline; }
+.tbl tr + tr th, .tbl tr + tr td { border-top: 1px solid var(--rule); }
+.tbl th { text-align: left; font-weight: 400; color: var(--ink-dim); font-size: 11.5px; }
+.tbl td.num, .tbl th.num {
+  text-align: right;
+  font-family: var(--f-mono);
+  font-variant-numeric: tabular-nums;
+  color: var(--ink);
+  white-space: nowrap;
+}
+.tbl td.v-pos { color: var(--tension); }
+.tbl td.v-neg { color: var(--compression); }
+.tbl td.v-zero, .tbl td.v-text, .tbl td.v-avg, .tbl td.v-shear, .tbl td.v-angle { color: var(--ink); }
+.tbl-shear td.v-shear { color: var(--shear); }
+.tbl thead th {
+  font-family: var(--f-tech);
+  font-size: 9.5px; letter-spacing: .12em; text-transform: uppercase;
+  color: var(--ink-faint);
+  border-bottom: 1px solid var(--rule-2);
+  padding-bottom: 5px;
+}
+.tbl-sens th { width: 62px; }
+.tbl-sens td.tex { font-family: var(--f-mono); font-size: 11.5px; color: var(--ink-2); }
+.tbl-sens td.num { width: 128px; }
+.tbl-sens td.dir { width: 104px; font-size: 11px; }
+.dir.up { color: var(--tension); }
+.dir.down { color: var(--compression); }
+.dir.flat { color: var(--ink-faint); }
+.tbl-probe th { width: 62px; }
+.tbl-probe td.num { width: 118px; }
+.tbl-probe td.dir { width: 30px; text-align: center; font-family: var(--f-mono); }
+
+.defs { margin: 6px 0 0; padding-left: 17px; }
+.defs li { font-size: 11px; line-height: 1.6; color: var(--ink-dim); margin-bottom: 3px; }
+.defs b { color: var(--ink-2); }
+
+/* ───────────────────────────────────────────── 12. Ecuaciones en HTML ─── */
+.eq-block { margin: 4px 0 0; }
+.eq-row {
+  display: grid;
+  grid-template-columns: 96px minmax(0, 1fr);
+  gap: 10px;
+  align-items: baseline;
+  padding: 5px 0;
+}
+.eq-row + .eq-row { border-top: 1px dotted var(--rule); }
+.eq-name { font-family: var(--f-tech); font-size: 11px; color: var(--ink-dim); }
+.eq-body { font-family: var(--f-mono); font-size: 12.5px; color: var(--ink); }
+.eq-sym { color: var(--ink-dim); }
+.eq-num { color: var(--ink); }
+.eq-res { color: var(--accent); font-weight: 600; }
+.eq-eq { color: var(--ink-faint); padding: 0 .35em; }
+.eq-unit { color: var(--ink-faint); font-size: 10px; margin-left: .2em; }
+
+.frac { display: inline-flex; flex-direction: column; vertical-align: middle; text-align: center; margin: 0 .2em; line-height: 1.2; }
+.frac-num { padding: 0 .34em; border-bottom: 1px solid currentColor; color: var(--ink-dim); }
+.frac-den { padding: 0 .34em; color: var(--ink-dim); }
+.sqrt { display: inline-flex; align-items: flex-start; vertical-align: middle; }
+.sqrt-sign { line-height: 1; }
+.sqrt-body { border-top: 1px solid currentColor; padding: 0 .2em 0 .06em; margin-top: .12em; }
+.vnum { font-weight: 600; color: var(--ink); }
+.sym { font-style: italic; }
+
+.mat {
+  display: inline-flex; flex-direction: column;
+  position: relative;
+  padding: 3px 9px;
+  border-left: 1.5px solid var(--ink-dim);
+  border-right: 1.5px solid var(--ink-dim);
+  vertical-align: middle;
+}
+.mat::before, .mat::after {
+  content: ''; position: absolute; left: 0; right: 0; height: 1.5px; background: var(--ink-dim);
+}
+.mat::before { top: 0; }
+.mat::after { bottom: 0; }
+.mat-row { display: grid; grid-template-columns: 1fr 1fr; gap: 1px 14px; }
+.mat-cell { text-align: center; font-family: var(--f-mono); font-size: 12.5px; }
+.eq-block-mat .eq-row { grid-template-columns: 150px minmax(0,1fr); }
+
+/* ────────────────────────────────────── 13. Validación y diagnóstico ─── */
+.val-head { display: flex; gap: 8px; align-items: flex-start; padding: 8px 9px; border: 1px solid; font-size: 11px; line-height: 1.45; }
+.val-head.is-ok { background: rgba(78,168,224,.07); border-color: rgba(78,168,224,.32); }
+.val-head.is-bad { background: rgba(224,112,90,.09); border-color: rgba(224,112,90,.45); }
+.val-mark { font-family: var(--f-mono); font-weight: 700; }
+.val-head.is-ok .val-mark { color: var(--tension); }
+.val-head.is-bad .val-mark { color: var(--compression); }
+
+.val-item { border: 1px solid var(--rule); margin-top: 6px; }
+.val-item > summary {
+  display: flex; gap: 8px; align-items: baseline;
+  padding: 6px 8px; cursor: pointer; list-style: none;
+  font-family: var(--f-tech); font-size: 11.5px;
+}
+.val-item > summary::-webkit-details-marker { display: none; }
+.val-item.is-ok .val-mark { color: var(--tension); }
+.val-item.is-bad .val-mark { color: var(--compression); }
+.val-item[open] > summary { border-bottom: 1px solid var(--rule); }
+.val-note { margin: 0; padding: 6px 8px; font-size: 10px; line-height: 1.5; color: var(--ink-faint); }
+.val-table { width: 100%; border-collapse: collapse; font-size: 10px; font-family: var(--f-mono); }
+.val-table th { text-align: left; font-weight: 400; color: var(--ink-dim); padding: 2px 8px; }
+.val-table td { text-align: right; padding: 2px 8px; color: var(--ink); font-variant-numeric: tabular-nums; }
+.val-table tr.is-bad td { color: var(--compression); }
+.val-eq { color: var(--ink-faint); }
+
+.selftest { margin: 0; font-size: 10.5px; line-height: 1.5; color: var(--ink-dim); }
+.selftest b { font-family: var(--f-mono); color: var(--ink); }
+.selftest.is-ok { border-left: 2px solid var(--tension); padding-left: 8px; }
+.selftest.is-bad { border-left: 2px solid var(--compression); padding-left: 8px; }
+.selftest a { color: var(--accent); }
+
+.layers { display: grid; grid-template-columns: 1fr 1fr; gap: 2px 10px; }
+
+/* ─────────────────────────────────────── 14. Influencia y ejercicios ─── */
+.inf-ctl, .ex-bar, .proc-bar, .sz-ctl {
+  display: flex; flex-wrap: wrap; gap: 10px; align-items: flex-end;
+  padding: 9px 10px; margin-bottom: 12px;
+  background: var(--panel); border: 1px solid var(--rule);
+}
+.num-sm { width: 86px; }
+.inf-ctl .field, .ex-bar .field { min-width: 96px; }
+.inf-list { margin: 6px 0 0; padding-left: 17px; }
+.inf-list li { font-size: 11.5px; line-height: 1.62; color: var(--ink-dim); margin-bottom: 7px; }
+.inf-list b { color: var(--ink); }
+
+.target-list { list-style: none; margin: 4px 0 0; padding: 0; display: grid; grid-template-columns: 1fr 1fr; gap: 1px; background: var(--rule); border: 1px solid var(--rule); }
+.target-list li { background: var(--panel); padding: 6px 9px; display: grid; grid-template-columns: 15px 1fr auto; gap: 3px 7px; align-items: baseline; }
+.tg-mark { font-family: var(--f-mono); font-size: 12px; }
+.tg-name { font-family: var(--f-tech); font-size: 12px; color: var(--ink); }
+.tg-hint { grid-column: 2 / -1; font-family: var(--f-mono); font-size: 9px; color: var(--ink-faint); }
+.tg-delta { font-family: var(--f-mono); font-size: 11px; color: var(--ink-2); }
+.target-list li.is-moved .tg-mark { color: var(--tension); }
+.target-list li.is-moved .tg-delta { color: var(--ink); }
+.target-list li.is-still { opacity: .62; }
+
+.proc { margin: 0; padding-left: 22px; }
+.proc li { margin-bottom: 15px; }
+.proc h4 { margin: 0 0 4px; }
+.proc-body { margin: 0; font-size: 11.5px; line-height: 1.65; color: var(--ink-2); }
+.proc-note { margin: 4px 0 0; font-size: 10.5px; line-height: 1.55; color: var(--ink-faint); padding-left: 10px; border-left: 1px solid var(--rule-2); }
+
+.ex-state { display: flex; flex-wrap: wrap; gap: 10px; align-items: baseline; padding: 8px 10px; border: 1px solid var(--rule); background: var(--panel); margin-bottom: 12px; }
+.ex-lbl { font-family: var(--f-tech); font-size: 9.5px; letter-spacing: .12em; text-transform: uppercase; color: var(--ink-faint); }
+.ex-vals { font-family: var(--f-mono); font-size: 12.5px; color: var(--ink); font-variant-numeric: tabular-nums; }
+
+.ex-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(238px, 1fr)); gap: 8px; }
+.ex-q { border: 1px solid var(--rule); background: var(--panel); padding: 8px 9px 9px; }
+.ex-q.is-ok { border-color: rgba(78,168,224,.42); }
+.ex-q.is-bad { border-color: rgba(224,112,90,.42); }
+.ex-q-lbl { display: grid; grid-template-columns: minmax(0,1fr) 104px 30px; gap: 7px; align-items: center; }
+.ex-q-name { font-family: var(--f-tech); font-size: 12.5px; color: var(--ink); }
+.ex-in { text-align: right; min-height: 25px; }
+.ex-q-u { font-family: var(--f-mono); font-size: 10px; color: var(--ink-faint); }
+.ex-hint { appearance: none; border: 0; background: none; color: var(--ink-faint); font-family: var(--f-tech); font-size: 10px; letter-spacing: .05em; cursor: pointer; padding: 4px 0 0; text-align: left; }
+.ex-hint:hover { color: var(--accent); }
+.ex-hinttext { display: none; font-size: 10.5px; line-height: 1.5; color: var(--ink-dim); margin-top: 5px; padding: 6px 8px; background: var(--chassis); border-left: 2px solid var(--rule-2); }
+.ex-q.is-open .ex-hinttext { display: block; }
+.ex-fb { font-size: 10.5px; line-height: 1.5; color: var(--ink-faint); margin-top: 5px; }
+.ex-fb.is-ok { color: var(--tension); }
+.ex-fb.is-bad { color: var(--compression); }
+.ex-score-row:empty { display: none; }
+.ex-score { display: inline-block; font-family: var(--f-mono); font-size: 12.5px; padding: 7px 11px; border: 1px solid var(--rule); margin-top: 12px; }
+.ex-score b { color: var(--ink); }
+.ex-score.is-ok { border-color: rgba(78,168,224,.42); }
+.ex-score.is-mid { border-color: rgba(216,163,60,.45); }
+.ex-score.is-bad { border-color: rgba(224,112,90,.45); }
+.ex-praise { font-size: 11.5px; line-height: 1.55; color: var(--tension); margin: 8px 0 0; max-width: 70ch; }
+#ex-note { font-size: 11px; color: var(--shear); margin: 0 0 10px; }
+
+/* ─────────────────────────────────────────── 15. Tira de lectura ─── */
+.readout-bar { flex: none; background: var(--panel); border-top: 1px solid var(--rule); }
+.readout { display: grid; grid-template-columns: repeat(13, minmax(0, 1fr)); }
+.ro {
+  display: flex; flex-direction: column; align-items: stretch;
+  padding: 5px 9px 7px;
+  border-top: 2px solid var(--rule-2);
+  border-right: 1px solid var(--rule);
+  min-width: 0;
+}
+.ro:last-child { border-right: 0; }
+.ro-sym {
+  font-family: var(--f-tech);
+  font-size: 9px; letter-spacing: .12em; text-transform: uppercase;
+  color: var(--ink-faint);
+  white-space: nowrap; overflow: hidden; text-overflow: ellipsis;
+}
+.ro-val {
+  font-family: var(--f-mono);
+  font-size: 15px; font-weight: 500;
+  font-variant-numeric: tabular-nums;
+  color: var(--ink);
+  white-space: nowrap; overflow: hidden; text-overflow: ellipsis;
+  line-height: 1.25;
+}
+.ro-unit { font-family: var(--f-mono); font-size: 9px; color: var(--ink-faint); }
+.ro.is-pos { border-top-color: var(--tension); }
+.ro.is-pos .ro-val { color: var(--tension); }
+.ro.is-neg { border-top-color: var(--compression); }
+.ro.is-neg .ro-val { color: var(--compression); }
+.ro-shear.is-pos, .ro-shear.is-neg { border-top-color: var(--shear); }
+.ro-shear .ro-val { color: var(--shear); }
+.ro.is-zero { border-top-color: var(--rule-2); }
+.ro.is-zero .ro-val { color: var(--ink-faint); }
+.ro.is-angle { border-top-color: var(--principal); }
+.ro.is-angle .ro-val { color: var(--ink-2); }
+.ro.is-undef { border-top-color: var(--rule); }
+.ro.is-undef .ro-val { color: var(--ink-faint); }
+
+/* ────────────────────────────────── 16. Capas del modo docente ─── */
+body.no-eq .eq-block,
+body.no-def .defs { display: none; }
+body.no-units .eq-unit,
+body.no-units .ro-unit,
+body.no-units .ex-q-u,
+body.no-units .field-unit,
+body.no-units .tbl td .unit-note { display: none; }
+body.no-res .ro[data-src="calc"] { visibility: hidden; }
+
+/* ───────────────────────────────────────────── 17. Adaptación (§24) ─── */
+@media (max-width: 1560px) {
+  .app { grid-template-columns: 282px minmax(0,1fr) 306px; }
+}
+@media (max-width: 1340px) {
+  .app { grid-template-columns: 262px minmax(0,1fr) 286px; }
+  .brand-sub { display: none; }
+  .titleblock { display: none; }
+  .tb-unit { display: none; }
+}
+@media (max-width: 1180px) {
+  body { overflow: auto; height: auto; }
+  .app { display: flex; flex-direction: column; }
+  .col { overflow: visible; }
+  .col-left { order: 1; border-right: 0; border-bottom: 1px solid var(--rule); }
+  .col-stage { order: 2; }
+  .col-right { order: 3; border-left: 0; border-top: 1px solid var(--rule); }
+  .stage-row { grid-template-columns: 1fr; }
+  .stage-row .viewport + .viewport { border-left: 0; border-top: 1px solid var(--rule); }
+  .tabpanels { overflow: visible; }
+  .readout-bar { position: sticky; bottom: 0; z-index: 20; }
+  .readout { grid-template-columns: repeat(13, minmax(76px, 1fr)); overflow-x: auto; }
+  .topbar { flex-wrap: wrap; padding: 8px 14px; gap: 12px; }
+  .topbar-tools { margin-left: auto; }
+}
+@media (max-width: 720px) {
+  :root { --pad: 12px; }
+  .mode-switch { order: 3; }
+  .topbar-tools { order: 2; }
+  .conv-grid, .cases, .target-list, .layers { grid-template-columns: 1fr; }
+  .ex-q-lbl { grid-template-columns: minmax(0,1fr) 84px 26px; }
+  .ro-val { font-size: 13px; }
+  .eq-row { grid-template-columns: 1fr; gap: 2px; }
+  .eq-block-mat .eq-row { grid-template-columns: 1fr; }
+}
+
+/* ───────────────────────────────────── 18. Hoja de impresión / PDF ─── */
+.print-sheet { display: none; }
+@media print {
+  @page { size: A4 landscape; margin: 12mm; }
+  html, body { height: auto; overflow: visible; background: #fff; color: #000; }
+  body > *:not(#print-sheet) { display: none !important; }
+  html.is-printing #print-sheet { display: block !important; }
+  #print-sheet { display: none; color: #111; background: #fff; font-family: var(--f-body); }
+  .ps-head { border-bottom: 2px solid #111; padding-bottom: 6px; margin-bottom: 10px; }
+  .ps-title { font-family: var(--f-tech); font-size: 15px; font-weight: 700; letter-spacing: .08em; }
+  .ps-sub { font-size: 10px; color: #444; }
+  .ps-grid { display: grid; grid-template-columns: repeat(7, 1fr); gap: 4px 10px; margin-bottom: 12px; }
+  .ps-cell { border: 1px solid #bbb; padding: 3px 6px; display: flex; flex-direction: column; }
+  .ps-k { font-family: var(--f-tech); font-size: 8px; letter-spacing: .1em; text-transform: uppercase; color: #555; }
+  .ps-v { font-family: var(--f-mono); font-size: 11px; }
+  .ps-figs { display: flex; flex-wrap: wrap; gap: 10px; }
+  .ps-figwrap { border: 1px solid #bbb; padding: 4px; }
+  .ps-fig { width: 100%; height: auto; display: block; }
+  .ps-checks { margin-top: 10px; font-size: 9.5px; font-family: var(--f-mono); }
+  .ps-check.ok::before { content: '✓ '; }
+  .ps-check.bad { color: #a33; }
+  .ps-foot { margin-top: 10px; border-top: 1px solid #bbb; padding-top: 5px; font-size: 9px; color: #444; }
+  /* Los SVG se serializan con los colores del tema: se fuerzan a tinta para imprimir */
+  #print-sheet .v-element-face { fill: #f2f2f2; }
+  #print-sheet .v-global-axis, #print-sheet .v-ghost-edge { stroke: #999; }
+  #print-sheet .v-gridline { stroke: #ddd; }
+  #print-sheet .v-axis, #print-sheet .v-axis-title, #print-sheet .v-tick,
+  #print-sheet .v-value, #print-sheet .v-clabel, #print-sheet .v-clabel3d,
+  #print-sheet .v-face-tag, #print-sheet .v-pt-a, #print-sheet .v-pt-b,
+  #print-sheet .v-cur-label, #print-sheet .v-arc-tag, #print-sheet .v-angle-tag,
+  #print-sheet .v-cursor-tag, #print-sheet .v-ref-label, #print-sheet .v-axis-name,
+  #print-sheet .v-local-axis, #print-sheet .v-plane-principal-tag, #print-sheet .v-plane-shear-tag {
+    fill: #111; stroke: none;
+  }
+  #print-sheet .v-arrow-tension, #print-sheet .v-curve-sigma { stroke: #1668a8; }
+  #print-sheet .v-arrow-compression { stroke: #b0402a; }
+  #print-sheet .v-arrow-shear, #print-sheet .v-curve-tau { stroke: #8a6510; }
+  #print-sheet .v-circle, #print-sheet .v-circle3d { stroke: #111; fill: none; }
+  #print-sheet .v-pt-p { fill: #111; stroke: #fff; }
+  #print-sheet .v-element-edge { stroke: #111; }
+}
+
+/* ─────────────────────────────────────────── 19. Accesibilidad ─── */
+@media (prefers-reduced-motion: reduce) {
+  *, *::before, *::after { animation-duration: .001ms !important; transition-duration: .001ms !important; }
+}
+@media (prefers-contrast: more) {
+  :root { --ink-dim: #a2b3c4; --ink-faint: #8598aa; --rule: #3a4a5a; --rule-2: #4d5f70; }
+}
